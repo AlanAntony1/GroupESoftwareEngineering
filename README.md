@@ -6,10 +6,10 @@ Keeps track of open parking, helps students find least busy parking areas within
 ## Roadmap
 
 ## Authors and acknowledgement
-Jordan Musselman
-Alan Antony
-Jason Salinas
-Aditi Mahangade
-Reese Zimmerman
-Elizabeth Glass
-Anh Nyguen
+Jordan Musselman 
+| Alan Antony 
+| Jason Salinas 
+| Aditi Mahangade 
+| Reese Zimmerman 
+| Elizabeth Glass 
+| Anh Nyguen
