@@ -5,6 +5,8 @@ We are developing an app that aims to help OU Students find parking around and o
 ## Usage
 Users from the University of Oklahoma will input their schedules as guided to do in the app. The student will then be able to view the “Find a Spot” tab in the app to see a list of recommended parking structures from the AI. By selecting a parking structure the student will be able to view a list of time slots and the likely number of spots available at each time. They will also be able to input a date and time to receive more specific information.
 
+##Example: Commit Change
+
 ## Roadmap
 
 ### Hard Data
