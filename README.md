@@ -12,7 +12,7 @@ Users from the University of Oklahoma will input their schedules as guided to do
 ### Hard Data
 Collect all hard data that is necessary e.g lot locations, parking space counts, etc.
 
-Continue to update any data as poarking structures and maps change on campus.
+Continue to update any data as parking structures and maps change on campus.
 
 ### AI
 Create an AI tailored to our specifications
