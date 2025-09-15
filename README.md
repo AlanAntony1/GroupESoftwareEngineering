@@ -28,8 +28,16 @@ Finalize AI for full release
 Continue maintenance based on consumer feedback
 
 ### Test Input
-### App Creation
+Create test input of student schedules to be used by the AI
 
+Expand text input based on test results and increase variety of data, to be repeated multiple times
+
+### App Creation
+Design a student-facing app that allows for easy use of the product
+
+Test the app in small batches, release to one college at a time
+
+Fully release the app to all OU students
 
 ## Authors and acknowledgement
 Jordan Musselman 
