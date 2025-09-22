@@ -41,8 +41,6 @@ Test the app in small batches, release to one college at a time
 
 Fully release the app to all OU students
 
-### Backlog
-
 ## Authors and acknowledgement
 Jordan Musselman 
 | Alan Antony 
