@@ -14,7 +14,7 @@ Collect all hard data that is necessary e.g lot locations, parking space counts,
 
 Continue to update any data as parking structures and maps change on campus.
 
-### AI
+### AI 
 Create an AI tailored to our specifications
 
 Train the AI on parking behavior of OU Students
