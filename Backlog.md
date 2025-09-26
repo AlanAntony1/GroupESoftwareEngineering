@@ -14,7 +14,7 @@ Acceptance Criteria: Page has instructions, upload button, and file successfully
 
 Task: Google Maps Integration - Jason Salinas
 Description: Embed Google Maps showing campus with parking locations.
-Acceptance Criteria: Users can zoom, pan, and see parking locations pinned.
+Acceptance Criteria: Users can zoom, pan, and see parking locations pinned along with highlighted open spots.
 
 Task: Parking Clock -Elizabeth Glass
 Description: Add a clock to show peak parking times visually.
