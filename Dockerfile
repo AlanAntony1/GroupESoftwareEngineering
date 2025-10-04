@@ -11,8 +11,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
+# Skip collectstatic during build to prevent missing settings errors
+ENV DISABLE_COLLECTSTATIC=1
 
 # Expose port 8080 (Cloud Run expects this)
 EXPOSE 8080
