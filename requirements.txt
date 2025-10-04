@@ -1,0 +1,17 @@
+# Core framework
+Django>=5.0,<6.0
+
+# WSGI HTTP server (required for running Django in production)
+gunicorn
+
+# Database adapter (PostgreSQL example)
+psycopg2-binary
+
+# Cloud environment and static files support
+whitenoise
+
+# Security and production utilities
+django-environ
+
+# Optional: static file handling and serving (for Firebase integration)
+dj-database-url
