@@ -20,8 +20,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        pip install -r myapp/requirements.txt
+        pip install -r requirements.txt
 
     - name: Run Tests
       run: |
-        python myapp/manage.py test
+        python manage.py test
