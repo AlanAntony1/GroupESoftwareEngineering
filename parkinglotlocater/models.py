@@ -8,3 +8,6 @@ class Building(models.Model):
 
     def __str__(self):
         return self.buildingName
+    
+    def getDistance(self):
+        return self.distance
