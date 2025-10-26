@@ -5,7 +5,19 @@ We are developing an app that aims to help OU Students find parking around and o
 ## Usage
 Users from the University of Oklahoma will input their schedules as guided to do in the app. The student will then be able to view the “Find a Spot” tab in the app to see a list of recommended parking structures from the AI. By selecting a parking structure the student will be able to view a list of time slots and the likely number of spots available at each time. They will also be able to input a date and time to receive more specific information.
 
-##Example: Commit Change
+## Downloading and Running the app or Test Cases
+
+Users may download the app for themselves in order to run locally or run tests.
+
+Must have python installed before running any commands, otherwise the project will not work.
+
+Start by downloading the ZIP file from GitHub and extracting it.
+
+Then, either open the folder in VSCode and use the built-in terminal or navigate to the folder's location using Terminal or Command Prompt.
+
+Running the Applicaton: Enter the following into the terminal window - python manage.py runserver
+
+Running the Test Cases: Enter the following into the terminal window - python manage.py test
 
 ## Roadmap
 

@@ -18,7 +18,7 @@ class BuildingTestCase(TestCase):
             distance=Decimal("50.00")
         )
 
-        # This building has a distance right at the boundary
+        # This building has a distance right at the boundary to be considered close
         self.building3 = Building.objects.create(
             buildingName="CCC",
             closestLot="Lot C",
