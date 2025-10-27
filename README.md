@@ -28,16 +28,17 @@ Users from the University of Oklahoma will input their schedules as guided to do
 
 Users may download the app for themselves in order to run locally or run tests.
 
-Must have python installed before running any commands, otherwise the project will not work.
-
-Start by downloading the ZIP file from GitHub and extracting it.
-
 Then, either open the folder in VSCode and use the built-in terminal or navigate to the folder's location using Terminal or Command Prompt.
 
 ```bash
     cd GroupESoftwareEngineering
 ```
 
+Download all dependencies.
+
+```bash
+    pip install -r requirements.txt
+```
 Running the Applicaton: Enter the following into the terminal window - 
 
 ```bash
