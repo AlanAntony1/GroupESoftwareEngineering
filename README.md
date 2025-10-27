@@ -14,8 +14,8 @@ Users from the University of Oklahoma will input their schedules as guided to do
 
 ## Prerequisites
 
-- Git[(https://git-scm.com)]
-- Python[(https://www.python.org/downloads/)]
+- [Git](https://git-scm.com)
+- [Python](https://www.python.org/downloads/)
 
 ## Downloading/Cloning the App
 
@@ -44,6 +44,8 @@ Running the Applicaton: Enter the following into the terminal window -
 ```bash
     python manage.py runserver
 ```
+Press Ctrl + C to quit
+
 
 Running the Test Cases: Enter the following into the terminal window - 
 
