@@ -12,8 +12,8 @@ def login_view(request):
         password = request.POST.get("password")
         if username == USERNAME and password == PASSWORD:
             request.session['logged_in'] = True
-             return redirect("http://3.16.213.24/")
-           # return render(request, "parkinglotlocater/locater.html")
+             #return redirect("http://3.16.213.24/")
+            return render(request, "parkinglotlocater/locater.html")
         else:
             error = "Invalid username or password."
     return render(request, "parkingLotHistory/login.html", {"error": error})
