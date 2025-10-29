@@ -12,7 +12,7 @@ def login_view(request):
         password = request.POST.get("password")
         if username == USERNAME and password == PASSWORD:
             request.session['logged_in'] = True
-            return redirect('history')  # Redirect after login
+            return render(request, "parkinglotlocater/locator.html")
         else:
             error = "Invalid username or password."
     return render(request, "parkingLotHistory/login.html", {"error": error})
@@ -28,9 +28,9 @@ def parking_history(request):
         return redirect('login')  # Redirect if not logged in
 
     # Example parking data
-    parking_data = [
-        {"lot": "Lot A", "status": "Full", "time": "10:00 AM"},
-        {"lot": "Lot B", "status": "Available", "time": "10:15 AM"},
-        {"lot": "Lot C", "status": "Available", "time": "10:30 AM"},
-    ]
+   # parking_data = [
+   #     {"lot": "Lot A", "status": "Full", "time": "10:00 AM"},
+    #    {"lot": "Lot B", "status": "Available", "time": "10:15 AM"},
+    #    {"lot": "Lot C", "status": "Available", "time": "10:30 AM"},
+   # ]
     return render(request, "parkingLotHistory/history.html", {"parking_data": parking_data})
