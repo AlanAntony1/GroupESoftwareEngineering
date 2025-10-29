@@ -5,10 +5,55 @@ We are developing an app that aims to help OU Students find parking around and o
 ## Usage
 Users from the University of Oklahoma will input their schedules as guided to do in the app. The student will then be able to view the “Find a Spot” tab in the app to see a list of recommended parking structures from the AI. By selecting a parking structure the student will be able to view a list of time slots and the likely number of spots available at each time. They will also be able to input a date and time to receive more specific information.
 
-##Example: Commit Change
+## Current Features
+
+### Parking Lot Locator
+
+- Allows a user to select between a selection of buildings, and gives the closest parking lot to that building
+- Gives the user the address of the parking lot and the distance from the building to the lot.
+
+## Prerequisites
+
+- [Git](https://git-scm.com)
+- [Python](https://www.python.org/downloads/)
+
+## Downloading/Cloning the App
+
+- Users may clone the repository directly through Github by downloading the code.
+- Users can also clone the repository by issuing the following command
+  ```bash
+      git clone https://github.com/AlanAntony1/GroupESoftwareEngineering
+  ```
+## Running the app or Test Cases
+
+Users may download the app for themselves in order to run locally or run tests.
+
+Then, either open the folder in VSCode and use the built-in terminal or navigate to the folder's location using Terminal or Command Prompt.
+
+```bash
+    cd GroupESoftwareEngineering
+```
+
+Download all dependencies.
+
+```bash
+    pip install -r requirements.txt
+```
+Running the Applicaton: Enter the following into the terminal window - 
+
+```bash
+    python manage.py runserver
+```
+Press Ctrl + C to quit
+
+
+Running the Test Cases: Enter the following into the terminal window - 
+
+```bash
+    python manage.py test
+```
 
 ## Roadmap
-
 ### Hard Data
 Collect all hard data that is necessary e.g lot locations, parking space counts, etc.
 
