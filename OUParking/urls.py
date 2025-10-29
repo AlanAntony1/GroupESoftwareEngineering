@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include("blog.urls")),
     path('', include("parkinglotlocater.urls")),
+    path('parkingLotHistory/', include("parkingLotHistory.urls")),
 ]
