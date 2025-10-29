@@ -53,6 +53,13 @@ Running the Test Cases: Enter the following into the terminal window -
     python manage.py test
 ```
 
+Running a single test - 
+
+```bash
+    python manage.py test my_app
+```
+Replace my_app with the name of the enclosing folder (e.g parkinglotlocater)
+
 ## Roadmap
 ### Hard Data
 Collect all hard data that is necessary e.g lot locations, parking space counts, etc.
