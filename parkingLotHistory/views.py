@@ -12,7 +12,7 @@ def login_view(request):
         password = request.POST.get("password")
         if username == USERNAME and password == PASSWORD:
             request.session['logged_in'] = True
-            return render(request, "parkinglotlocater/locator.html")
+            return render(request, "parkinglotlocater/locater.html")
         else:
             error = "Invalid username or password."
     return render(request, "parkingLotHistory/login.html", {"error": error})
