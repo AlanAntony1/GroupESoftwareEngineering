@@ -47,7 +47,7 @@ class ClassInputModelTests(TestCase):
             startTime=time(8, 0),
             endTime=time(9, 0),
             days="TTh",
-            location="Lab A"
+            location="Gallogly Hall"
         )
 
         with self.assertRaises(ValidationError):
