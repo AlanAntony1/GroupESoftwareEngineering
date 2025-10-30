@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Building
+from .models import Building, Housing # Aditi - added housing import
 from decimal import Decimal
 
 # Create your tests here.
@@ -52,3 +52,20 @@ class BuildingTestCase(TestCase):
         """Test that negative distances are detected as invalid."""
         self.assertLess(self.building4.distance, 0)
     
+    # Aditi test
+
+class HousingModelTest(TestCase):
+    def setUp(self):
+        self.housing = Housing.objects.create(
+            housingName="Walker Tower",
+            closestParking="Asp Ave Garage",
+            distance=0.25
+        )
+
+    def test_housing_str_method(self):
+        """Test that __str__ returns the housing name."""
+        self.assertEqual(str(self.housing), "Walker Tower")
+
+    def test_get_distance_method(self):
+        """Test that getDistance returns the correct distance."""
+        self.assertEqual(self.housing.getDistance(), 0.25)
