@@ -28,16 +28,18 @@ Users from the University of Oklahoma will input their schedules as guided to do
 
 Users may download the app for themselves in order to run locally or run tests.
 
-Then, either open the folder in VSCode and use the built-in terminal or navigate to the folder's location using Terminal or Command Prompt.
+Then, either open the folder in VSCode and use the built-in terminal or navigate to the folder's location using Terminal Powershell or Command Prompt. 
 
 ```bash
     cd GroupESoftwareEngineering
 ```
+## Mac or Linux Version 
+
 Create and start a virtual environment
 
 ```bash
     python3 -m venv venv
-    source venv/bin/activate  (Windows- venv\Scripts\activate)
+    source venv/bin/activate 
 ```
 
 Download all dependencies.
@@ -49,6 +51,43 @@ Running the Applicaton: Enter the following into the terminal window -
 
 ```bash
     python3 manage.py runserver
+```
+Press Ctrl + C to quit
+
+
+Running the Test Cases: Enter the following into the terminal window - 
+
+```bash
+    python manage.py test
+```
+
+Running a single test - 
+
+```bash
+    python manage.py test my_app
+```
+Replace my_app with the name of the enclosing folder (e.g parkinglotlocater)
+
+
+## Windows Version 
+
+Create and start a virtual environment
+
+```bash
+    python -m venv venv
+    .\venv\Scripts\Activate.ps1
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+Download all dependencies.
+
+```bash
+    pip install django
+```
+Running the Applicaton: Enter the following into the terminal window - 
+
+```bash
+    python manage.py runserver
 ```
 Press Ctrl + C to quit
 
