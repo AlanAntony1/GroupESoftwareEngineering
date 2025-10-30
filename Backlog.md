@@ -1,4 +1,4 @@
-*** Milestone 1: Setup & Foundation ***
+# Milestone 1: Setup & Foundation
 
 Task: Connect GitHub to Visual Studio - Anh Nguyen
 Description: Ensure repo is cloned and project builds in VS.
@@ -20,7 +20,8 @@ Description: Set up a protocol that updates website whenever GitHub is pushed to
 Acceptance Criteria: Change made in GitHub is updated on AWS Server.
 Status: Completed
 
-*** Milestone 2: Core Features ***
+# Milestone 2: Core Features
+
 Task: Welcome Page (User Guide) - Aditi Mahangade
 Description: Create a landing page with instructions on using the site and a place to upload schedule.
 Acceptance Criteria: Page has instructions, upload button, and file successfully stores.
@@ -41,7 +42,8 @@ Description: Collect and format data on available parking spaces.
 Acceptance Criteria: Dataset is stored, cleaned, and accessible for app features.
 Status: In Progress
 
-*** Milestone 3: Advanced Functionality ***
+# Milestone 3: Advanced Functionality 
+
 Task: AI Schedule Matcher - Reese Zimmermann
 Description: Build AI feature to recommend best parking based on user schedule and data.
 Acceptance Criteria: Given an uploaded schedule, system outputs suggested parking with >70% accuracy on test cases.
