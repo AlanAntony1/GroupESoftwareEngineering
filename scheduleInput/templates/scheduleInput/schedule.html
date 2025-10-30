@@ -9,7 +9,7 @@
     <h1>Class Inputs</h1>
     {% for classInput in classes %}
         <h2>{{classInput.name}}</h2>
-        <p>{{classInput.time classInput.duration classInput.days classInput.location}}</p> 
+        <p>{{classInput.startTime classInput.endTime classInput.days classInput.location}}</p> 
     {%end for%}
 </body>
 </html>
