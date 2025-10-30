@@ -57,8 +57,8 @@ class BuildingTestCase(TestCase):
 class HousingModelTest(TestCase):
     def setUp(self):
         self.housing = Housing.objects.create(
-            housingName="Walker Tower",
-            closestParking="Asp Ave Garage",
+            housingName = "Walker Tower",
+            closestParking = "Asp Ave Garage",
             distance=0.25
         )
 
