@@ -69,3 +69,11 @@ node_modules/
 .dataconnect
 
 DjangoKey.pem
+venv/Lib/site-packages/easy_install.py
+venv/
+__pycache__/
+*.pyc
+
+.DS_Store
+
+db.sqlite3
