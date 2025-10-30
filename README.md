@@ -33,6 +33,12 @@ Then, either open the folder in VSCode and use the built-in terminal or navigate
 ```bash
     cd GroupESoftwareEngineering
 ```
+Create and start a virtual environment
+
+```bash
+    python3 -m venv venv
+    source venv/bin/activate  (Windows- venv\Scripts\activate)
+```
 
 Download all dependencies.
 
@@ -42,7 +48,7 @@ Download all dependencies.
 Running the Applicaton: Enter the following into the terminal window - 
 
 ```bash
-    python manage.py runserver
+    python3 manage.py runserver
 ```
 Press Ctrl + C to quit
 
