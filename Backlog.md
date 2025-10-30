@@ -24,9 +24,9 @@ Task: AI Schedule Matcher - Reese Zimmermann\
 Description: Build AI feature to recommend best parking based on user schedule and data.\
 Acceptance Criteria: Given an uploaded schedule, system outputs suggested parking with >70% accuracy on test cases.
 
-Task: Parking Clock -Elizabeth Glass\
-Description: Add a clock to show peak parking times visually.\
-Acceptance Criteria: Clock updates with correct time and highlights busy hours.
+Task: Parking History -Elizabeth Glass\
+Description: Add the ability for a history to be added to and seen once a user starts viewing building and parking distances.\
+Acceptance Criteria: Once a building is picked and "show info" button is hit add the building to a parking history list. 
 
 Task: Establish fields for AvailableLots - Reese Zimmermann\
 Description: Implement AvailableLots model with fields: lot_name (str, required, unique per campus), total_spaces (int > 0), available_spaces (int >= 0 and <= total_spaces).
@@ -44,6 +44,14 @@ Description: Coding status, update_availability, and occupancy_rate according to
 Acceptance Criteria: Local tests for the model logic pass.
 
 # Complete
+
+Task: Create a Model for Parking History
+Description: Made a model for parking data.  
+Acceptance Criteria: Model was successfully created and migrated. 
+
+Task: Create Tests for Parking History
+Description: Test for all equivalences parts in the parkingLotHistory model. 
+Acceptance Criteria: Test cases for lot history executes and passes.
 
 Task: Create Unit for Schedule Input - Jordan Musselman\
 Description: Add unit to the project that will be used for users to enter their class schedules\
