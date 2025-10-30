@@ -8,6 +8,14 @@ Task: Gather Parking Data - Jordan Musselman\
 Description: Collect and format data on available parking spaces.\
 Acceptance Criteria: Dataset is stored, cleaned, and accessible for app features.
 
+Task: Output Closest Lots Based on Schedule Data - Jordan Musselman\
+Description: Return to the user the closests parking lots to each of their classes based on parking pass type\
+Acceptance Criteria: Parking lot is displayed to user for each class location entered
+
+Task: Create Tests for Parking Lot Outputs - Jordan Musselman\
+Description: Test that correct parking lots are returned to the user based on distance from their class and parking pass type\
+Acceptance Criteria: All tests pass
+
 Task: Google Maps Integration - Jason Salinas\
 Description: Embed Google Maps showing campus with parking locations.\
 Acceptance Criteria: Users can zoom, pan, and see parking locations pinned along with highlighted open spots.
@@ -22,8 +30,23 @@ Acceptance Criteria: Clock updates with correct time and highlights busy hours.
 
 # In Progress
 
+Task: User Class Schedule Page Display - Jordan Musselman\
+Description: Design a user facing web page for the user to enter and see their class schedule data.\
+Acceptance Criteria: Classes can be added to the web page, are saved, and appear formatted to the user.
 
 # Complete
+
+Task: Create Unit for Schedule Input - Jordan Musselman\
+Description: Add unit to the project that will be used for users to enter their class schedules\
+Acceptance Criteria: Unit is created with appropriate files and is successfully pushed to GitHub
+
+Task: Create a Model for Class Input - Jordan Musselman\
+Description: Make a model with fields for all class data and added to web page\
+Acceptance Criteria: Model is added to web pages and added class inputs can be viewed on page
+
+Task: Create Tests for Class Input Model - Jordan Musselman\
+Description: Test for all equivalence partitions in the ClassInput model fields\
+Acceptance Criteria: Tests all pass successfully
 
 Task: Connect GitHub to Visual Studio - All team members\
 Description: Ensure repo is cloned and project builds in VS.\
