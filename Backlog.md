@@ -48,6 +48,18 @@ Task: Create Tests for Class Input Model - Jordan Musselman\
 Description: Test for all equivalence partitions in the ClassInput model fields\
 Acceptance Criteria: Tests all pass successfully
 
+Task: Create Model for buildings -Alan Antony\
+Description: Added a building model that contains the distance and address to its closest parking lot.\
+Acceptance Criteria: Model appears in Django Admin Page.
+
+Task: Created Tests for building mode -Alan Antony\
+Description: Test for equivalence partitions within building model.\
+Acceptance Criteria: Tests all pass successfully.
+
+Task: Create a Parking Lot Locator -Alan Antony\
+Description: Allows a user to select a building and gives the assosciated information from the model\
+Acceptance Criteria: User is able to select a building and the correct matchin information is given.
+
 Task: Connect GitHub to Visual Studio - All team members\
 Description: Ensure repo is cloned and project builds in VS.\
 Acceptance Criteria: Team can pull/push code; project compiles without errors.
