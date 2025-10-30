@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'blog',
     'parkinglotlocater',
     'scheduleInput',
-    'parkingLotHistory',
-    'parkingLotHistory.apps.ParkinglothistoryConfig',
+    'parkingLotHistory.apps.ParkingLotHistoryConfig',
 ]
 
 MIDDLEWARE = [

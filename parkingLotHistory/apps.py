@@ -1,6 +1,5 @@
 from django.apps import AppConfig
 
-
-class ParkinglotlocaterConfig(AppConfig):
+class ParkingLotHistoryConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'parkingLotHistory'
