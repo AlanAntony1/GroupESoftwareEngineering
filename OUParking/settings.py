@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'parkinglotlocater',
     'scheduleInput',
     'parkingLotHistory.apps.ParkingLotHistoryConfig',
+    'availableLots',
 ]
 
 MIDDLEWARE = [
