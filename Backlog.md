@@ -1,7 +1,7 @@
 # Milestone 1: Setup & Foundation
 
 Task: Connect GitHub to Visual Studio - Anh Nguyen
-Description: Ensure repo is cloned and project builds in VS.
+Description: Ensure repo is cloned and project builds in VS.\
 Acceptance Criteria: Team can pull/push code; project compiles without errors.
 Status: Completed
 
