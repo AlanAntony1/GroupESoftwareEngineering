@@ -28,11 +28,20 @@ Task: Parking Clock -Elizabeth Glass\
 Description: Add a clock to show peak parking times visually.\
 Acceptance Criteria: Clock updates with correct time and highlights busy hours.
 
+Task: Establish fields for AvailableLots - Reese Zimmermann\
+Description: Implement AvailableLots model with fields: lot_name (str, required, unique per campus), total_spaces (int > 0), available_spaces (int >= 0 and <= total_spaces).
+Acceptance Criteria: Migrations created; invalid values (e.g., negative or > total).
+
+
 # In Progress
 
 Task: User Class Schedule Page Display - Jordan Musselman\
 Description: Design a user facing web page for the user to enter and see their class schedule data.\
 Acceptance Criteria: Classes can be added to the web page, are saved, and appear formatted to the user.
+
+Task: Implement Business Logic for AvailableLots - Reese Zimmermann\
+Description: Coding status, update_availability, and occupancy_rate according to test expectations.\
+Acceptance Criteria: Local tests for the model logic pass.
 
 # Complete
 
@@ -75,3 +84,7 @@ Acceptance Criteria: App is fully functional and accessible through AWS.
 Task: Implement Continiuous Deployment - Alan Antony\
 Description: Set up a protocol that updates website whenever GitHub is pushed too.\
 Acceptance Criteria: Change made in GitHub is updated on AWS Server.
+
+Task: Create a Model for available lots - Reese Zimmermann\
+Description: Initialized a Django app that runs a single test case for lot availability. Implemented model with basic fields to represent parking lot data and verified functionality through the initial unit test.\
+Acceptance Criteria: Model successfully created and migrated; test case for lot availability executes and passes.
