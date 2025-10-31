@@ -75,8 +75,7 @@ Create and start a virtual environment
 
 ```bash
     python -m venv venv
-    .\venv\Scripts\Activate.ps1
-    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+    venv\Scripts\activate
 ```
 
 Download all dependencies.
