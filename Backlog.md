@@ -93,6 +93,11 @@ Task: Implement Continiuous Deployment - Alan Antony\
 Description: Set up a protocol that updates website whenever GitHub is pushed too.\
 Acceptance Criteria: Change made in GitHub is updated on AWS Server.
 
+
+Task: Create Tests for Highlight Button model - Jason Salinas\
+Description: Test for all User input of the button and if it holds the correct state.
+Acceptance Criteria: Tests all pass
+
 Task: Create a Model for available lots - Reese Zimmermann\
 Description: Initialized a Django app that runs a single test case for lot availability. Implemented model with basic fields to represent parking lot data and verified functionality through the initial unit test.\
 Acceptance Criteria: Model successfully created and migrated; test case for lot availability executes and passes.
