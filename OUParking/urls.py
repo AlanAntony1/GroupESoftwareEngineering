@@ -22,5 +22,5 @@ urlpatterns = [
     path('blog/', include("blog.urls")),
     path('', include("parkinglotlocater.urls")),
     path('parkingLotHistory/', include("parkingLotHistory.urls")),
-    path('', include("scheduleInput.urls")),
+    path('dashboard/', include('datadashboard.urls')),
 ]
