@@ -38,7 +38,7 @@ Then, either open the folder in VSCode and use the built-in terminal or navigate
 Create and start a virtual environment
 
 ```bash
-    python -m venv venv
+    python3 -m venv venv
     source venv/bin/activate 
 ```
 
@@ -50,7 +50,7 @@ Download all dependencies.
 Running the Applicaton: Enter the following into the terminal window - 
 
 ```bash
-    python manage.py runserver
+    python3 manage.py runserver
 ```
 Press Ctrl + C to quit
 
@@ -58,13 +58,13 @@ Press Ctrl + C to quit
 Running the Test Cases: Enter the following into the terminal window - 
 
 ```bash
-    python manage.py test
+    python3 manage.py test
 ```
 
 Running a single test - 
 
 ```bash
-    python manage.py test my_app
+    python3 manage.py test my_app
 ```
 Replace my_app with the name of the enclosing folder (e.g parkinglotlocater)
 
