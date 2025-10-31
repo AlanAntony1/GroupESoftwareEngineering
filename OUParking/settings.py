@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'parkingLotHistory.apps.ParkingLotHistoryConfig',
     'datadashboard',
     'availableLots'
+    'HighlightButton',
+    
 ]
 
 MIDDLEWARE = [
