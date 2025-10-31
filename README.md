@@ -38,7 +38,7 @@ Then, either open the folder in VSCode and use the built-in terminal or navigate
 Create and start a virtual environment
 
 ```bash
-    python3 -m venv venv
+    python -m venv venv
     source venv/bin/activate 
 ```
 
@@ -50,7 +50,7 @@ Download all dependencies.
 Running the Applicaton: Enter the following into the terminal window - 
 
 ```bash
-    python3 manage.py runserver
+    python manage.py runserver
 ```
 Press Ctrl + C to quit
 
