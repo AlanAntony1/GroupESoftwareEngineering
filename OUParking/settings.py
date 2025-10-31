@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'scheduleInput',
     'parkingLotHistory.apps.ParkingLotHistoryConfig',
     'datadashboard',
-    'availableLots'
+    'availableLots',
     'HighlightButton',
     
 ]
