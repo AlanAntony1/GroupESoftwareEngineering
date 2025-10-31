@@ -61,7 +61,7 @@ Running the Test Cases: Enter the following into the terminal window -
     python3 manage.py test
 ```
 
-Running a single test - 
+Running a specific test - 
 
 ```bash
     python3 manage.py test my_app
@@ -97,7 +97,7 @@ Running the Test Cases: Enter the following into the terminal window -
     python manage.py test
 ```
 
-Running a single test - 
+Running a specific test - 
 
 ```bash
     python manage.py test my_app
