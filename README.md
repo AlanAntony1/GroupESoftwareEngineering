@@ -28,7 +28,7 @@ Users from the University of Oklahoma will input their schedules as guided to do
 
 Users may download the app for themselves in order to run locally or run tests.
 
-Then, either open the folder in VSCode and use the built-in terminal or navigate to the folder's location using Terminal Powershell or Command Prompt. 
+Then, either open the folder in VSCode and use the built-in terminal or navigate to the folder's location using Terminal Powershell or Command Prompt. Note Command Prompt can not be used for Windows Users. 
 
 ```bash
     cd GroupESoftwareEngineering
@@ -74,8 +74,8 @@ Replace my_app with the name of the enclosing folder (e.g parkinglotlocater)
 Create and start a virtual environment
 
 ```bash
-    python -m venv venv
-    venv\Scripts\activate
+     python -m venv venv
+     .\venve\Scripts\activate.bat 
 ```
 
 Download all dependencies.
