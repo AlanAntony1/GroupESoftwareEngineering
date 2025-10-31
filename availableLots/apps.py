@@ -1,0 +1,7 @@
+from django.apps import AppConfig
+
+class AvailablelotsConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "availableLots"
+    verbose_name = "Available Lots"
+

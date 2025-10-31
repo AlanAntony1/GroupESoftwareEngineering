@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: -apple-system, Arial, sans-serif; margin: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(160px,1fr)); gap: 16px; margin-bottom: 20px; }
+    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
+    .muted { color: #6b7280; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #e5e7eb; padding: 8px 10px; text-align: left; }
+    th { background: #f8fafc; }
+    canvas { margin-top: 24px; max-width: 100%; }
+  </style>
+</head>
+<body>
+  <h1>{{ title }}</h1>
+
+  <div class="grid">
+    <div class="card">
+      <div class="muted">Total Buildings</div>
+      <div><b>{{ total_buildings }}</b></div>
+    </div>
+    <div class="card">
+      <div class="muted">API (sample)</div>
+      <div><a href="./data.json">/dashboard/data.json</a></div>
+    </div>
+  </div>
+
+  <h2>Buildings</h2>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Building Name</th><th>Closest Lot</th><th>Distance</th></tr>
+    </thead>
+    <tbody>
+      {% for b in buildings %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ b.buildingName }}</td>
+          <td>{{ b.closestLot }}</td>
+          <td>{{ b.distance }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">No buildings found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Building Distances</h2>
+  <canvas id="distanceChart" height="100"></canvas>
+
+  <script>
+    const labels = {{ labels|safe }};
+    const distances = {{ distances|safe }};
+
+    new Chart(document.getElementById('distanceChart'), {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Distance (miles)',
+          data: distances,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+  </script>
+</body>
+</html>

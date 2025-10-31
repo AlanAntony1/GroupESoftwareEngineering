@@ -1,0 +1,22 @@
+# OS junk
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pytest_cache/
+*.coverage
+
+# Django
+db.sqlite3
+
+# Environments
+venv/
+.env
+.env.*
+
+# Editors
+.vscode/
+.idea/
