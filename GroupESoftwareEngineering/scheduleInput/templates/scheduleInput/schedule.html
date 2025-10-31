@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule</title>
+</head>
+<body>
+    <h1>Class Inputs</h1>
+    {% for classInput in classes %}
+        <h2>{{classInput.name}}</h2>
+        <p>{{classInput.startTime classInput.endTime classInput.days classInput.location}}</p> 
+    {%end for%}
+</body>
+</html>
