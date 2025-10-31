@@ -75,7 +75,7 @@ Create and start a virtual environment
 
 ```bash
      python -m venv venv
-     .\venve\Scripts\activate.bat 
+     .\venv\Scripts\activate.bat 
 ```
 
 Download all dependencies.
