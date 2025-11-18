@@ -58,13 +58,13 @@ Press Ctrl + C to quit
 Running the Test Cases: Enter the following into the terminal window - 
 
 ```bash
-    python manage.py test
+    python3 manage.py test
 ```
 
-Running a single test - 
+Running a specific test - 
 
 ```bash
-    python manage.py test my_app
+    python3 manage.py test my_app
 ```
 Replace my_app with the name of the enclosing folder (e.g parkinglotlocater)
 
@@ -75,7 +75,7 @@ Create and start a virtual environment
 
 ```bash
      python -m venv venv
-     .\venve\Scripts\activate.bat 
+     .\venv\Scripts\activate.bat 
 ```
 
 Download all dependencies.
@@ -97,7 +97,7 @@ Running the Test Cases: Enter the following into the terminal window -
     python manage.py test
 ```
 
-Running a single test - 
+Running a specific test - 
 
 ```bash
     python manage.py test my_app
