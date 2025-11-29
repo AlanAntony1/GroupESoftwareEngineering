@@ -20,3 +20,6 @@ venv/
 # Editors
 .vscode/
 .idea/
+
+# Security Key
+DjangoKey2.pem
