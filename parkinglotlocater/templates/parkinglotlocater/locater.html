@@ -63,7 +63,7 @@
             OU Parking App
         </div>
     </div>
-
+    <div style ="text-align: center;">
     <h1>Parking Lot Locater</h1>
 
     <label for="buildingSelect">Select a Building:</label>
@@ -75,10 +75,11 @@
     </select>
 
     <button onclick="showBuildingInfo()">Show Info</button>
-
-    <div id="buildingInfo" class="info-box">
+    <div style="width: fit-content; margin: auto;">
+    <div id="buildingInfo" class="info-box" style="text-align: left;">
         <p><strong>Closest Lot:</strong> <span id="closestLot">--</span></p>
         <p><strong>Distance:</strong> <span id="distance">--</span></p>
+    </div>
     </div>
 
     <script>
@@ -103,5 +104,6 @@
                 .catch(err => console.error("Error:", err));
         }
     </script>
+    </div>
 </body>
 </html>
