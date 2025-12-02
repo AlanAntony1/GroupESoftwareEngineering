@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class Schedule</title>
+    <title>Class Schedule Input</title>
 </head>
 <body>
-    <h1>Class Inputs</h1>
-    {% for classInput in classes %}
-        <h2>{{classInput.name}}</h2>
-        <p>{{classInput.startTime classInput.endTime classInput.days classInput.location}}</p> 
-    {%end for%}
+
+<h1>Add a Class</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Class</button>
+</form>
+
+<hr>
+
+<h2>Your Classes</h2>
+
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Name</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Days</th>
+        <th>Location</th>
+        <th>Closest Parking</th>
+    </tr>
+    {% for c in classes %}
+    <tr>
+        <td>{{ c.name }}</td>
+        <td>{{ c.startTime }}</td>
+        <td>{{ c.endTime }}</td>
+        <td>{{ c.days }}</td>
+        <td>{{ c.location }}</td>
+        <td>{{ c.closest_parking }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
 </body>
 </html>
