@@ -20,9 +20,6 @@ Task: Google Maps Integration - Jason Salinas\
 Description: Embed Google Maps showing campus with parking locations.\
 Acceptance Criteria: Users can zoom, pan, and see parking locations pinned along with highlighted open spots.
 
-Task: AI Schedule Matcher - Reese Zimmermann\
-Description: Build AI feature to recommend best parking based on user schedule and data.\
-Acceptance Criteria: Given an uploaded schedule, system outputs suggested parking with >70% accuracy on test cases.
 
 Task: Parking History -Elizabeth Glass\
 Description: Add the ability for a history to be added to and seen once a user starts viewing building and parking distances.\
@@ -101,3 +98,7 @@ Acceptance Criteria: Tests all pass
 Task: Create a Model for available lots - Reese Zimmermann\
 Description: Initialized a Django app that runs a single test case for lot availability. Implemented model with basic fields to represent parking lot data and verified functionality through the initial unit test.\
 Acceptance Criteria: Model successfully created and migrated; test case for lot availability executes and passes.
+
+Task: AI Schedule Matcher - Reese Zimmermann\
+Description: Build AI feature to recommend best parking based on user schedule and data.\
+Acceptance Criteria: Given an uploaded schedule, system outputs suggested parking with >70% accuracy on test cases.
