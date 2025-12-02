@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'datadashboard',
     'availableLots',
     'HighlightButton',
+    'scheduleMatcher',
     
 ]
 
