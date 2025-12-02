@@ -32,9 +32,6 @@ Task: User Class Schedule Page Display - Jordan Musselman\
 Description: Design a user facing web page for the user to enter and see their class schedule data.\
 Acceptance Criteria: Classes can be added to the web page, are saved, and appear formatted to the user.
 
-Task: Implement Business Logic for AvailableLots - Reese Zimmermann\
-Description: Coding status, update_availability, and occupancy_rate according to test expectations.\
-Acceptance Criteria: Local tests for the model logic pass.
 
 # Complete
 
@@ -100,5 +97,9 @@ Description: Build AI feature to recommend best parking based on user schedule a
 Acceptance Criteria: Given an uploaded schedule, system outputs suggested parking with >70% accuracy on test cases.
 
 Task: Establish fields for AvailableLots - Reese Zimmermann\
-Description: Implement AvailableLots model with fields: lot_name (str, required, unique per campus), total_spaces (int > 0), available_spaces (int >= 0 and <= total_spaces).
-Acceptance Criteria: Migrations created; invalid values (e.g., negative or > total).
+Description: Implement AvailableLots model with validated fields for lot name, total spaces, and available spaces, ensuring accurate and consistent parking lot data.
+Acceptance Criteria: Migrations generate successfully, and invalid values (negative or exceeding total spaces) are rejected during model validation.
+
+Task: Implement Business Logic for AvailableLots - Reese Zimmermann\
+Description: Added business logic to update lot availability, compute occupancy rate, and manage lot status in alignment with expected system behavior.
+Acceptance Criteria: Local tests for the model logic pass.
