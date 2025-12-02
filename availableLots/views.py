@@ -14,7 +14,7 @@ def requestLots(request):
     context = {"lots": lots}
     return render(request, "availableLots/AvailableLots.html", context)
 
-# Security helpers
+# Security helpers: CWE-306 (Insufficient Authorization) mitigation
 
 def _is_parking_manager(user):
     """
