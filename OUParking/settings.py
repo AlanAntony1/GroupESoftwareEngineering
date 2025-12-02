@@ -60,6 +60,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'OUParking.urls'
 
+# Where to send the user after successful login
+LOGIN_REDIRECT_URL = '/'          # or '/dashboard/' or whatever you want
+
+# Optional: where to send user after logout
+LOGOUT_REDIRECT_URL = '/'
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
