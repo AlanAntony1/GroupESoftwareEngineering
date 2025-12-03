@@ -1,5 +1,5 @@
 # datadashboard/tests.py
-from datetime import date, datetime
+from datetime import timedelta
 from django.test import TestCase
 from django.utils import timezone
 
@@ -20,12 +20,15 @@ class SimpleDashboardTests(TestCase):
             lot_name="LotA", occupied_spots=20, available_spots=80, timestamp=now
         )
 
-        # One entry for yesterday
-        yesterday = today.replace(day=today.day - 1)
+        # One entry for yesterday (safe across month boundaries)
+        yesterday = today - timedelta(days=1)
         ParkingHistory.objects.create(
-            lot_name="LotB", occupied_spots=5, available_spots=95,
-            timestamp=timezone.make_aware(datetime.combine(yesterday, datetime.min.time()))
+            lot_name="LotB",
+            occupied_spots=5,
+            available_spots=95,
+            timestamp=now - timedelta(days=1),
         )
+
 
     def test_getUsageStats(self):
         """Check that usage stats return at least one record"""

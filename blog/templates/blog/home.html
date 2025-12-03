@@ -1,17 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OU Parking Updates</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; }
+        select, button {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+        .banner {
+            width: 100vw;              /* full width of the viewport */
+            height: 12vh;              /* 12% of screen height (you can change this) */
+            background-color: #f73206ff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;                 /* remove any spacing */
+            padding: 0;
+        position: relative;
+        }
+        .banner-logo {
+            height: 75px;      /* adjust size */
+            width: auto;
+        }
+        .banner-title{
+            flex: 1;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        button {
+            background-color: #f73206ff;
+
+            height: 45px;
+            width: auto;
+
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #7d100c; }
+        
+        .login-button {
+        background-color: #000000ff;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        height: 5vh;
+        width: 12vw;
+        font-size: large;
+        cursor: pointer;
+        }
+        .login-button:hover {
+            background-color: #b31c1c;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Updates</h1>
+    <div class="banner">
+        <a href="{% url 'home' %}">
+        <img src="{% static 'blog/images/banner.png' %}" alt="Logo" class = "banner-logo">
+        </a>
+        <div class = "banner-title">
+            OU Parking App
+        </div>
+    </div>
+    <div style ="text-align: center;">
+    <h1>Features</h1>
+    <!-- This is the url for the parking lot locater-->
+    <button onclick="document.location='locater'">Parking Lot Locater</button>
+  
+    <!-- this is the url for login  -->
+    <button class="login-button" onclick="document.location='/accounts/login/'">Log In</button>
+    
+    <!-- Embed each url after this using urls.py, same as above. Label using comments as well -->
+
+     <h1>Updates</h1>
     {% for post in posts %}
         <h2>{{post.title}}</h2>
         <p>{{post.content}}</p>
         <small>{{post.created_at}}</small>
     {%endfor%}
+    </div>
     
 </body>
 </html>

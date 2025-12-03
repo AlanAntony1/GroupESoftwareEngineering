@@ -1,7 +1,8 @@
+# availableLots/tests.py
+from django.core.exceptions import ValidationError
 from django.test import TestCase
-
-# Create your tests here.
 from .models import AvailableLots
+
 
 class AvailableLotsTestCase(TestCase):
     def setUp(self):
@@ -21,3 +22,7 @@ class AvailableLotsTestCase(TestCase):
     def test_occupancy_rate(self):
         rate = self.lot.occupancy_rate()
         self.assertEqual(rate, 40.0)
+
+    def test_invalid_availability_raises(self):
+        with self.assertRaises(ValueError):
+            self.lot.update_availability(101)
