@@ -8,7 +8,7 @@ class Highlight(models.Model):
     isHighlighted = models.BooleanField(default=False)
     lastPressed= models.DateTimeField(auto_now=True)
    # label = models.CharField(max_length=50, default="Faculty Only Highlighter")
-
+#hello
 
     def press_button(self):
         self.button = True
