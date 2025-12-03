@@ -1,27 +1,30 @@
 from django.shortcuts import render
-from django.http import JsonResponse
-from parkinglotlocater.models import Building
+from .services import getDashboardRows
 
 def home(request):
-    buildings = Building.objects.all().order_by('buildingName')
+    rows = getDashboardRows()
 
-    labels = [b.buildingName for b in buildings]
-    distances = [float(b.distance) for b in buildings]
-
-    context = {
-        "title": "OU Parking — Dashboard",
-        "total_buildings": buildings.count(),
-        "buildings": buildings,
-        "labels": labels,
-        "distances": distances,
-    }
-    return render(request, "datadashboard/home.html", context)
-
-def data_json(request):
-    buildings = Building.objects.all().order_by('buildingName')
-    data = {
-        "labels": [b.buildingName for b in buildings],
-        "distances": [float(b.distance) for b in buildings],
-    }
-    return JsonResponse(data)
+    # Fallback so the table is NEVER empty on your machine
+    if not rows:
+        rows = [
+            {
+                "building_name": "DEH",
+                "lot_label": "S Jenkins & Page St, Norman, OK 73069",
+                "available": None,
+                "total": None,
+            },
+            {
+                "building_name": "FH",
+                "lot_label": "S Jenkins Ave & Page St, Norman, OK 73096",
+                "available": None,
+                "total": None,
+            },
+            {
+                "building_name": "GH",
+                "lot_label": "123 Example Rd, Norman, OK 73072",
+                "available": None,
+                "total": None,
+            },
+        ]
+    return render(request, "datadashboard/home.html", {"rows": rows})
 
