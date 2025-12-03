@@ -27,6 +27,8 @@ urlpatterns = [
     path('available-lots/', include('availableLots.urls'), name='available_lots'),
     path('schedule-matcher/', include('scheduleMatcher.urls'), name='schedule_matcher'),
     
+    path('schedule/', include('scheduleInput.urls')),
+    
     #New login system
     path('accounts/', include('django.contrib.auth.urls')),
 ]
