@@ -34,6 +34,24 @@
         <td>{{ c.days }}</td>
         <td>{{ c.location }}</td>
         <td>{{ c.closest_parking }}</td>
+        <td>
+            <a href="/schedule/delete/{{ c.id }}/"
+                style="
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: red;
+                    padding: 8px;
+                    border-radius: 5px;
+                    text-decoration: none;
+                ">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                     width="20" height="20" viewBox="0 0 24 24" 
+                     fill="white">
+                    <path d="M3 6h18v2H3zm2 3h14l-1.5 12h-11zM9 4h6v2H9z"/>
+                </svg>
+            </a>
+        </td>
     </tr>
     {% endfor %}
 </table>
