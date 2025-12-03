@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ClassInputForm
 from .models import ClassInput
 
@@ -31,3 +31,8 @@ def schedule(request):
         "form": form,
         "classes": classes,
     })
+
+def delete_class(request, pk):
+    class_instance = get_object_or_404(ClassInput, pk=pk)
+    class_instance.delete()
+    return redirect("schedule")
