@@ -17,7 +17,7 @@ def schedule(request):
             class_input = form.save(commit=False)
             class_input.full_clean()  # calls your start<end validation
             class_input.save()
-            return redirect("schedule_page")  # avoid resubmission on refresh
+            return redirect("schedule")  # avoid resubmission on refresh
     else:
         form = ClassInputForm()
 
@@ -27,7 +27,7 @@ def schedule(request):
     for c in classes:
         c.closest_parking = get_closest_parking(c.location)
 
-    return render(request, "scheduleInput/schedule_page.html", {
+    return render(request, "scheduleInput/schedule.html", {
         "form": form,
         "classes": classes,
     })
