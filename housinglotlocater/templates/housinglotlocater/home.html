@@ -11,7 +11,9 @@
         <select name="housing_id">
             <option value="">-- Select --</option>
             {% for h in housing_list %}
-                <option value="{{ h.id }}" {% if selected_housing and h.id == selected_housing.id %}selected{% endif %}>{{ h.name }}</option>
+                <option value="{{ h.id }}" {% if selected_housing and h.id == selected_housing.id %}selected{% endif %}>
+                    {{ h.name }}
+                </option>
             {% endfor %}
         </select>
         <button type="submit">Show Info</button>
@@ -22,6 +24,5 @@
         <p>Closest Lot: {{ closest_lot }}</p>
         <p>Distance: {{ distance }}</p>
     {% endif %}
-
 </body>
 </html>

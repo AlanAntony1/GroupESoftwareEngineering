@@ -1,10 +1,21 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Housing
 
-# Example function to get closest lot info
+# Dummy closest lot info
 def get_closest_lot_info(housing):
-    # Replace this with your real logic
-    return "Lot A", "0.2 miles"
+    example_info = {
+        "Cross Village": ("Lot A", "0.5 miles"),
+        "McCasland Hall": ("Lot B", "0.3 miles"),
+        "South Building": ("Lot C", "0.4 miles"),
+        "Couch Center": ("Lot D", "0.6 miles"),
+        "Walker Center": ("Lot E", "0.2 miles"),
+        "Residential Colleges (Dunham & Headington College)": ("Lot F", "0.7 miles"),
+        "David L. Boren Hall": ("Lot G", "0.5 miles"),
+        "Headington Hall": ("Lot H", "0.4 miles"),
+        "Traditions Square": ("Lot I", "0.6 miles"),
+        "Kraettli Apartments": ("Lot J", "0.3 miles"),
+    }
+    return example_info.get(housing.name, ("Unknown", "--"))
 
 def home(request):
     housing_list = Housing.objects.all()
