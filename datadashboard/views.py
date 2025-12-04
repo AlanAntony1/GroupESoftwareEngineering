@@ -1,57 +1,39 @@
 
 # datadashboard/views.py
-# ------------------------------------------------------------
-# Purpose:
-#   Serve the Data Dashboard page (HTML) and a JSON feed used by tests/clients.
-#   The data is built from the latest ParkingHistory snapshot for a few
-#   pre-mapped campus buildings.
-#
-# What to change:
-#   - To add/remove buildings or change the human label shown in the table,
-#     edit the PAIRS list below.
-#   - If you want different keys in the JSON (e.g., add "lot_code"), change
-#     the dict built in _build_rows().
-#   - If you want to show a different “latest” rule (e.g., last 24h only),
-#     update the ParkingHistory query in _build_rows().
-#
-# Test expectations (important):
-#   - The JSON endpoint at name "datadashboard:dashboard-data" must return a
-#     TOP-LEVEL LIST of dicts (NOT {"rows": [...]}), so we use JsonResponse(..., safe=False).
-#   - Each row dict should include: "building", "lot", "available", "total".
-#     (We also include "lot_label" for display; tests ignore it.)
-# ------------------------------------------------------------
-
 from django.http import JsonResponse
 from django.shortcuts import render
-from parkingLotHistory.models import ParkingHistory
 
-# Building ↔ lot mapping used by the dashboard.
-# Format: (building_code, lot_code_in_DB, human_readable_lot_label)
-# - building_code: short string you want to display in the "Building" column
-# - lot_code_in_DB: must match ParkingHistory.lot_name values (e.g., "LotA")
-# - human_readable_lot_label: pretty text for the UI table (optional)
-PAIRS = [
-    ("DEH", "LotA", "S Jenkins & Page St, Norman"),
-    ("FH",  "LotB", "S Jenkins Ave & Page St, Norman"),
-    ("GH",  "LotC", "123 Example Rd, Norman"),
-]
+from parkingLotHistory.models import ParkingHistory
+from parkinglotlocater.models import Building  # ← pull data from locator app
+
+# If ParkingHistory.lot_name uses short codes (e.g., "LotA")
+# but the locator stores human labels (e.g., "S Jenkins & Page St, Norman"),
+# map them here. If your PH.lot_name ALREADY stores the same human label,
+# you can leave this dict empty.
+LOT_LABEL_TO_CODE = {
+    # "S Jenkins & Page St, Norman": "LotA",
+    # "S Jenkins Ave & Page St, Norman": "LotB",
+    # "123 Example Rd, Norman": "LotC",
+}
+
+def _lot_code_from_label(label: str) -> str:
+    if not label:
+        return ""
+    return LOT_LABEL_TO_CODE.get(label, label)  # fall back to the label itself
 
 def _build_rows():
     """
-    Build the dashboard rows from latest ParkingHistory per lot in PAIRS.
-
-    Returns: list[dict] with keys:
-      - building:   the campus building code (e.g., "DEH")
-      - lot:        the lot code (e.g., "LotA") — tests look for this
-      - lot_label:  human label for display ("S Jenkins & Page St, Norman")
-      - available:  integer, available spots for the latest snapshot
-      - total:      integer, available + occupied (0 if no snapshot)
+    Create table rows from Buildings in the locator app.
+    Each row shape matches your template:
+      {building, lot, lot_label, available, total}
     """
     rows = []
 
-    for building, lot_code, lot_label in PAIRS:
-        # Grab the MOST RECENT snapshot for this lot_code.
-        # If you want a time filter (e.g., only today), add a .filter(timestamp__date=...)
+    for b in Building.objects.all().order_by("buildingName"):
+        building_name = getattr(b, "buildingName", "")
+        lot_label = getattr(b, "closestLot", "") or ""
+        lot_code = _lot_code_from_label(lot_label)
+
         ph = (
             ParkingHistory.objects
             .filter(lot_name=lot_code)
@@ -60,18 +42,16 @@ def _build_rows():
         )
 
         if ph:
-            # Latest numbers from the snapshot
             available = ph.available_spots
             total = ph.available_spots + ph.occupied_spots
         else:
-            # If there is no data in the DB yet for this lot, show zeros
             available = 0
             total = 0
 
         rows.append({
-            "building":  building,
-            "lot":       lot_code,   # tests expect a "lot" field with the code like 'LotA'
-            "lot_label": lot_label,  # optional: used only for nicer display in the HTML
+            "building":  building_name,
+            "lot":       lot_code,     # useful in tests
+            "lot_label": lot_label,    # what the table displays
             "available": available,
             "total":     total,
         })
@@ -79,18 +59,8 @@ def _build_rows():
     return rows
 
 def home(request):
-    """
-    Render the HTML page (template: datadashboard/home.html).
-    The template expects 'rows' in the context to build the table.
-    """
     return render(request, "datadashboard/home.html", {"rows": _build_rows()})
 
 def data_json(request):
-    """
-    JSON API endpoint used by tests and (optionally) the UI.
-
-    NOTE: We return a top-level LIST, not an object, because tests call:
-          data = resp.json(); assert isinstance(data, list)
-    That’s why we pass safe=False to JsonResponse.
-    """
+    # Tests and the API expect a LIST, not {"rows": ...}
     return JsonResponse(_build_rows(), safe=False)
