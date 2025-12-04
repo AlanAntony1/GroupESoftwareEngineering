@@ -36,6 +36,6 @@ def home(request):
     rows = _build_rows()
     return render(request, "datadashboard/home.html", {"rows": rows})
 
-def dashboard_data(request):
+def dashboard_json(request):
     # <-- IMPORTANT: return a bare list, not {"rows": [...]}
     return JsonResponse(_build_rows(), safe=False)
