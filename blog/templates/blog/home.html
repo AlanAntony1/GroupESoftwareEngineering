@@ -64,6 +64,14 @@
         .login-button:hover {
             background-color: #b31c1c;
         }
+        .grid-container {
+            display: grid;
+            grid-template-columns: lfr;
+            gap: 10px;
+            justify-items:center;
+            align-items: center;
+            grid-auto-flow: dense;
+        }
 
     </style>
 </head>
@@ -77,12 +85,17 @@
         </div>
     </div>
     <div style ="text-align: center;">
+        <!-- this is the url for login  -->
+    <button class="login-button" onclick="document.location='/accounts/login/'">Log In</button>
+    <!-- Embed each url after this using urls.py, same as above. Label using comments as well -->
+        <!-- this is the url for signup  -->
+    <button class="login-button" onclick="document.location='/signup/'">Sign Up</button>
     <h1>Features</h1>
+    <div class ="grid-container">
     <!-- This is the url for the parking lot locater-->
     <button onclick="document.location='locater'">Parking Lot Locater</button>
 
     <!-- Housing Lot Locater Button -->
-     <!-- Housing Lot Locater button -->
     <button onclick="document.location='{% url 'housing_lot_locater' %}'">Housing Lot Locater</button>
 
 
@@ -92,15 +105,12 @@
     <!-- Schedule Inpiut button-->
     <button onclick="window.location.href='{% url 'schedule' %}'">Class Schedule</button>
 
-  
-    <!-- this is the url for login  -->
-    <button class="login-button" onclick="document.location='/accounts/login/'">Log In</button>
-    <!-- Embed each url after this using urls.py, same as above. Label using comments as well -->
-        <!-- this is the url for signup  -->
-    <button class="login-button" onclick="document.location='/signup/'">Sign Up</button>
+
         <!-- Data Dashboard -->
-<button onclick="document.location='{% url 'datadashboard:dashboard-home' %}'">Data Dashboard</button>
-     <h1>Updates</h1>
+    <button onclick="document.location='{% url 'datadashboard:dashboard-home' %}'">Data Dashboard</button>
+    </div>
+    
+    <h1>Updates</h1>
     {% for post in posts %}
         <h2>{{post.title}}</h2>
         <p>{{post.content}}</p>
