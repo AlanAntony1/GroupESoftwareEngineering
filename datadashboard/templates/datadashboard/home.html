@@ -78,5 +78,55 @@
 </tbody>
 
   </table>
+  <style>
+  .subtle { color:#6b7280; font-size:14px; margin-top:4px; }
+  .peakcard { margin-top:28px; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden}
+  .peakcard h2 { margin:0; padding:14px 16px; background:#f3f4f6; }
+  .peaktable { width:100%; border-collapse:separate; border-spacing:0; }
+  .peaktable th, .peaktable td { padding:10px 12px; border-bottom:1px solid #e5e7eb; }
+  .peaktable tr:last-child td { border-bottom:none; }
+  .wk { width:110px; color:#374151; }
+  .hr { font-weight:600; }
+</style>
+
+<div class="peakcard">
+  <h2>Typical Peak Hours <span class="subtle">(last 60 days)</span></h2>
+
+  {% comment %} Show one block per lot we know about {% endcomment %}
+  {% for lot_code, peak in peaks.items %}
+    <div style="padding:14px 16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-weight:700">Lot: {{ lot_code }}</div>
+        {% if peak.overall %}
+          <div class="subtle">Overall busiest hour: <strong>{{ peak.overall.hour }}:00</strong></div>
+        {% endif %}
+      </div>
+      <table class="peaktable">
+        <thead>
+          <tr>
+            <th class="wk">Weekday</th>
+            <th>Typical Peak Hour</th>
+            <th>Avg. Occupied (sum)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in peak.by_weekday %}
+            <tr>
+              <td class="wk">
+                {% if r.weekday == 1 %}Sun{% elif r.weekday == 2 %}Mon{% elif r.weekday == 3 %}Tue{% elif r.weekday == 4 %}Wed{% elif r.weekday == 5 %}Thu{% elif r.weekday == 6 %}Fri{% else %}Sat{% endif %}
+              </td>
+              <td class="hr">{{ r.hour }}:00</td>
+              <td>{{ r.avg_occupied }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="3" class="subtle">No historical data for this lot.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if not forloop.last %}<hr style="border:none;border-top:1px solid #e5e7eb;margin:0">{% endif %}
+  {% endfor %}
+</div>
+
 </body>
 </html>
