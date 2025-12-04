@@ -21,6 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("blog.urls"), name = 'blog'),
     path('locater/', include("parkinglotlocater.urls"), name = "locater"),
+    path('housing-lot-locater/', include('housinglotlocater.urls'), name='housing_lot_locater'),
+
     path('parkingLotHistory/', include("parkingLotHistory.urls"), name = "history"),
     path("dashboard/", include(("datadashboard.urls", "datadashboard"), namespace="datadashboard")),
     
