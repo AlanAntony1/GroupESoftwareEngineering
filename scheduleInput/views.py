@@ -21,7 +21,7 @@ def schedule(request):
         form = ClassInputForm(request.POST)
         if form.is_valid():
             class_input = form.save(commit=False)
-            class_input.full_clean()  # calls your start<end validation
+            class_input.full_clean()  # calls start<end validation
             class_input.save()
             return redirect("schedule")  # avoid resubmission on refresh
     else:

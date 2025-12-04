@@ -104,11 +104,11 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Start</th>
-                    <th>End</th>
+                    <th>Start </th>
+                    <th>End </th>
                     <th>Days</th>
                     <th>Location</th>
-                    <th>Closest Parking</th>
+                    <th>Reccomended Arrival Time</th>
                     <th>Delete</th>
                 </tr>
             </thead>
@@ -120,7 +120,7 @@
                     <td>{{ c.endTime }}</td>
                     <td>{{ c.days }}</td>
                     <td>{{ c.location }}</td>
-                    <td>{{ c.closest_parking }}</td>
+                    <td>{{ c.arrival_time }}</td>
                     <td>
                         <a href="/schedule/delete/{{ c.id }}/" class="delete-button">
                             <!-- Trash icon -->
