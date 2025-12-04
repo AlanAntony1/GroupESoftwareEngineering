@@ -1,74 +1,49 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{{ title }}</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="utf-8" />
+  <title>OU Parking — Data Dashboard</title>
   <style>
-    body { font-family: -apple-system, Arial, sans-serif; margin: 24px; }
-    .grid { display: grid; grid-template-columns: repeat(3, minmax(160px,1fr)); gap: 16px; margin-bottom: 20px; }
-    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
-    .muted { color: #6b7280; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #e5e7eb; padding: 8px 10px; text-align: left; }
-    th { background: #f8fafc; }
-    canvas { margin-top: 24px; max-width: 100%; }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;padding:32px}
+    h1{text-align:center}
+    table{width:100%;border-collapse:collapse;margin-top:20px}
+    th,td{border:1px solid #e5e7eb;padding:10px}
+    thead th{background:#f3f4f6}
+    .muted{color:#9ca3af}
   </style>
 </head>
 <body>
-  <h1>{{ title }}</h1>
-
-  <div class="grid">
-    <div class="card">
-      <div class="muted">Total Buildings</div>
-      <div><b>{{ total_buildings }}</b></div>
-    </div>
-    <div class="card">
-      <div class="muted">API (sample)</div>
-      <div><a href="./data.json">/dashboard/data.json</a></div>
-    </div>
-  </div>
-
-  <h2>Buildings</h2>
+  <h1>Data Dashboard</h1>
   <table>
     <thead>
-      <tr><th>#</th><th>Building Name</th><th>Closest Lot</th><th>Distance</th></tr>
+      <tr>
+        <th>#</th>
+        <th>Building</th>
+        <th>Closest Lot</th>
+        <th>Available / Total</th>
+      </tr>
     </thead>
     <tbody>
-      {% for b in buildings %}
-        <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ b.buildingName }}</td>
-          <td>{{ b.closestLot }}</td>
-          <td>{{ b.distance }}</td>
-        </tr>
-      {% empty %}
-        <tr><td colspan="4">No buildings found.</td></tr>
-      {% endfor %}
-    </tbody>
+  {% for r in rows %}
+    <tr>
+      <td class="num">{{ forloop.counter }}</td>
+      <td>{{ r.building }}</td>
+      <td>{{ r.lot_label }}</td>
+      <td>
+        {% if r.available != None and r.total != None %}
+          {{ r.available }} / {{ r.total }}
+        {% else %}
+          &mdash;
+        {% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="4" class="empty">No data.</td>
+    </tr>
+  {% endfor %}
+</tbody>
+
   </table>
-
-  <h2>Building Distances</h2>
-  <canvas id="distanceChart" height="100"></canvas>
-
-  <script>
-    const labels = {{ labels|safe }};
-    const distances = {{ distances|safe }};
-
-    new Chart(document.getElementById('distanceChart'), {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Distance (miles)',
-          data: distances,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: { y: { beginAtZero: true } }
-      }
-    });
-  </script>
 </body>
 </html>

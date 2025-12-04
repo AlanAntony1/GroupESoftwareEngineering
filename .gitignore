@@ -17,6 +17,12 @@ venv/
 .env
 .env.*
 
+# staticfiles
+staticfiles/
+
 # Editors
 .vscode/
 .idea/
+
+# Security Key
+DjangoKey2.pem

@@ -19,8 +19,17 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('blog/', include("blog.urls")),
-    path('', include("parkinglotlocater.urls")),
-    path('parkingLotHistory/', include("parkingLotHistory.urls")),
-    path('dashboard/', include('datadashboard.urls')),
+    path('', include("blog.urls"), name = 'blog'),
+    path('locater/', include("parkinglotlocater.urls"), name = "locater"),
+    path('parkingLotHistory/', include("parkingLotHistory.urls"), name = "history"),
+    path("dashboard/", include(("datadashboard.urls", "datadashboard"), namespace="datadashboard")),
+    
+    path('available-lots/', include('availableLots.urls'), name='available_lots'),
+    path('schedule-matcher/', include('scheduleMatcher.urls'), name='schedule_matcher'),
+    
+    path('schedule/', include('scheduleInput.urls')),
+    
+    #New login system
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
+

@@ -1,6 +1,11 @@
 # OU Parking App :oncoming_automobile:
+
 ## Description :scroll:
 We are developing an app that aims to help OU Students find parking around and on the OU campus reducing stress and wasted time. The app will collect information from students about their schedules and the app's AI will estimate parking availability of specific lots at different times. This app would help alleviate some problems with the scarcity of OU parking spaces and empty spots.
+
+## Access the app online here!:
+
+- [OU Parking App](http://3.16.213.24)
 
 ## Usage :white_check_mark:
 Users from the University of Oklahoma will input their schedules as guided to do in the app. The student will then be able to view the “Find a Spot” tab in the app to see a list of recommended parking structures from the AI. By selecting a parking structure the student will be able to view a list of time slots and the likely number of spots available at each time. They will also be able to input a date and time to receive more specific information.
@@ -28,7 +33,7 @@ Users from the University of Oklahoma will input their schedules as guided to do
 
 Users may download the app for themselves in order to run locally or run tests.
 
-Then, either open the folder in VSCode and use the built-in terminal or navigate to the folder's location using Terminal Powershell or Command Prompt. 
+Then, either open the folder in VSCode and use the built-in terminal or navigate to the folder's location using Terminal Powershell or Command Prompt. Note Command Prompt can not be used for Windows Users. 
 
 ```bash
     cd GroupESoftwareEngineering
@@ -58,13 +63,13 @@ Press Ctrl + C to quit
 Running the Test Cases: Enter the following into the terminal window - 
 
 ```bash
-    python manage.py test
+    python3 manage.py test
 ```
 
-Running a single test - 
+Running a specific test - 
 
 ```bash
-    python manage.py test my_app
+    python3 manage.py test my_app
 ```
 Replace my_app with the name of the enclosing folder (e.g parkinglotlocater)
 
@@ -74,8 +79,8 @@ Replace my_app with the name of the enclosing folder (e.g parkinglotlocater)
 Create and start a virtual environment
 
 ```bash
-    python -m venv venv
-    venv\Scripts\activate
+     python -m venv venv
+     .\venv\Scripts\activate.bat 
 ```
 
 Download all dependencies.
@@ -97,7 +102,7 @@ Running the Test Cases: Enter the following into the terminal window -
     python manage.py test
 ```
 
-Running a single test - 
+Running a specific test - 
 
 ```bash
     python manage.py test my_app
