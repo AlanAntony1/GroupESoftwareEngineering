@@ -5,6 +5,16 @@ from datetime import datetime, timedelta
 
 class ClassInput(models.Model):
 
+    DAY_CHOICES = [
+        ('M', 'Monday'),
+        ('T', 'Tuesday'),
+        ('W', 'Wednesday'),
+        ('Th', 'Thursday'),
+        ('F', 'Friday'),
+        ('S', 'Saturday'),
+        ('Su', 'Sunday'),
+    ]
+    
     BUILDING_CHOICES = [
         ("Adams Center", "Adams Center"),
         ("Adams Hall", "Adams Hall"),
@@ -99,7 +109,7 @@ class ClassInput(models.Model):
     name = models.CharField(max_length = 20)
     startTime = models.TimeField()
     endTime = models.TimeField()
-    days = models.CharField(max_length = 10)
+    days = models.CharField(max_length = 15, default='')
     location = models.CharField(max_length=50, choices=BUILDING_CHOICES, default="Unknown")
     
     arrival_time = models.TimeField(blank=True, null=True)
@@ -124,6 +134,9 @@ class ClassInput(models.Model):
         # Automatically calculates arrival_time every time object saves
         if self.startTime:
             self.arrival_time = self.calculate_arrival_time()
+        # Saves days as a string seperated by commas to override list format
+        if isinstance(self.days, list):
+            self.days = ','.join(self.days)
         super().save(*args, **kwargs)
     
     def clean(self):
