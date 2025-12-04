@@ -49,29 +49,28 @@
           <th>Available / Total</th>
         </tr>
       </thead>
-     <tbody>
+<tbody>
   {% if rows and rows|length > 0 %}
     {% for r in rows %}
       <tr>
-        <td class="num">{{ forloop.counter }}</td>      <!-- “#” column -->
+        <td class="num">{{ forloop.counter }}</td>
         <td>{{ r.building_name }}</td>
         <td>{{ r.lot_label }}</td>
         <td>
-          {% if r.available is not None and r.total is not None %}
+          {% if r.total > 0 %}
             {{ r.available }} / {{ r.total }}
           {% else %}
-            &mdash;
+            —
           {% endif %}
         </td>
       </tr>
     {% endfor %}
   {% else %}
     <tr>
-      <td colspan="4" class="empty">No data.</td>       <!-- colspan matches 4 headers -->
+      <td colspan="4" class="empty">No data.</td>
     </tr>
   {% endif %}
 </tbody>
-
     </table>
   </div>
 </body>
