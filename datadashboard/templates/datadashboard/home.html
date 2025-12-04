@@ -3,81 +3,174 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>OU Parking — Data Dashboard</title>
+  <title>OU Parking — Data Dashboard</title> <!-- <- Change the browser tab text here -->
 
-  <!-- Same banner style as your partner's page -->
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; }
+    /* ====== GLOBAL / PAGE-LEVEL STYLES ======
+       - Change the default font for the whole page at font-family below
+       - Adjust overall page margins here if needed
+    */
+    body {
+      font-family: Arial, sans-serif; /* <- Change global font family here */
+      margin: 0;                      /* <- Remove default browser margins */
+    }
+
+    /* ====== TOP RED BANNER (like your partner's page) ======
+       - Background color: background-color
+       - Height: height
+       - Text size: font-size
+       - Text color: color
+       - Horizontal/vertical centering handled by flexbox
+    */
     .banner {
-      width: 100vw;
-      height: 12vh;
-      background-color: #f73206ff; /* OU crimson */
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 2rem;
-      font-weight: bold;
+      width: 100vw;                   /* Full viewport width */
+      height: 12vh;                   /* Banner height (increase/decrease for thicker/thinner bar) */
+      background-color: #f73206ff;    /* <- OU crimson; change this hex to change banner color */
+      color: white;                   /* <- Banner text color */
+      display: flex;                  /* Flex layout for centering content */
+      justify-content: center;        /* Horizontally center children */
+      align-items: center;            /* Vertically center children */
+      font-size: 2rem;                /* <- Banner text size */
+      font-weight: bold;              /* <- Banner text weight */
       margin: 0;
       padding: 0;
-      position: relative;
+      position: relative;             /* Allows future absolute-positioned elements if needed */
     }
-    .banner-logo { height: 75px; width: auto; }
-    .banner-title { flex: 1; text-align: center; font-size: 2rem; font-weight: bold; }
-    /* page content wrapper */
-    .wrap { max-width: 1100px; margin: 28px auto 80px; padding: 0 20px; }
-    /* simple table styling you already use */
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 14px 16px; border-bottom: 1px solid #e5e7eb; }
-    th { background: #1f2937; color: #fff; text-align: left; }
-    .num { width: 56px; color: #6B7280; }
-    .title { text-align: center; font-size: 48px; font-weight: 800; margin: 18px 0 28px; }
-    .empty { text-align: center; color: #6B7280; padding: 20px; background: #f3f4f6; }
+
+    /* ====== OU LOGO IN BANNER ======
+       - Adjust the displayed logo size via height
+    */
+    .banner-logo {
+      height: 75px;   /* <- Change this to resize logo (e.g., 60px or 90px) */
+      width: auto;    /* Keep aspect ratio */
+    }
+
+    /* ====== BANNER TITLE TEXT ======
+       - This is centered text "OU Parking App"
+       - Change size/weight/alignment here
+    */
+    .banner-title {
+      flex: 1;                 /* Take remaining width so it's centered while logo sits on left */
+      text-align: center;      /* Center the text horizontally */
+      font-size: 2rem;         /* <- Banner title size */
+      font-weight: bold;       /* <- Banner title weight */
+    }
+
+    /* ====== MAIN CONTENT WRAPPER ======
+       - Controls max width of the interior content and horizontal padding
+       - Adjust spacing around the content by changing margins/padding
+    */
+    .wrap {
+      max-width: 1100px; /* <- Page content max width; increase for wider table */
+      margin: 28px auto 80px; /* <- Top / left-right (auto centers) / bottom margins */
+      padding: 0 20px;        /* <- Side padding inside the wrapper */
+    }
+
+    /* ====== PAGE TITLE “Data Dashboard” ======
+       - Change the large title’s size, weight, spacing here
+    */
+    .title {
+      text-align: center; /* Center the H1 */
+      font-size: 48px;    /* <- Main title size (e.g., 40px, 56px) */
+      font-weight: 800;   /* <- Title weight (700 = bold, 800 = extra-bold) */
+      margin: 18px 0 28px;/* <- Top / sides / bottom spacing around title */
+    }
+
+    /* ====== TABLE STYLES ======
+       - Table width: width
+       - Header background and text color: th background / color
+       - Row/Cell padding & borders: th, td
+    */
+    table {
+      width: 100%;            /* Full width within .wrap */
+      border-collapse: collapse; /* Merge borders */
+    }
+    th, td {
+      padding: 14px 16px;        /* <- Cell padding (change for tighter/looser rows) */
+      border-bottom: 1px solid #e5e7eb; /* <- Row divider color */
+    }
+    th {
+      background: #1f2937; /* <- Table header background (dark gray) */
+      color: #fff;         /* <- Table header text color */
+      text-align: left;    /* Header text alignment */
+    }
+    .num {
+      width: 56px; /* <- First column width (index column) */
+      color: #6B7280; /* <- Subtle gray text for the # column */
+    }
+
+    /* ====== "No data" ROW ======
+       - Styling for the empty state message inside the table
+    */
+    .empty {
+      text-align: center;    /* Center the empty message */
+      color: #6B7280;        /* Gray text for empty message */
+      padding: 20px;         /* Space inside the cell */
+      background: #f3f4f6;   /* Light gray background so it stands out */
+    }
   </style>
 </head>
 
 <body>
-  <!-- OU RED BANNER (logo → Home) -->
+  <!-- ====== OU RED BANNER (Logo is a link back to Home) ======
+       - Clicking the logo goes to the URL with name 'home' from your blog app
+       - If your home view has a different name, change {% url 'home' %} to that name
+  -->
   <div class="banner">
-    <a href="{% url 'home' %}">
-      <img src="{% static 'parkinglotlocater/images/banner.png' %}" alt="OU" class="banner-logo" />
+    <a href="{% url 'home' %}">  <!-- <- Change 'home' if your homepage URL name is different -->
+      <img
+        src="{% static 'parkinglotlocater/images/banner.png' %}"  <!-- <- Replace path if your logo lives elsewhere -->
+        alt="OU"
+        class="banner-logo"
+      />
     </a>
-    <div class="banner-title">OU Parking App</div>
+    <div class="banner-title">OU Parking App</div> <!-- <- Change banner center text here -->
   </div>
 
+  <!-- ====== PAGE CONTENT ====== -->
   <div class="wrap">
-    <h1 class="title">Data Dashboard</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Building</th>
-        <th>Closest Lot</th>
-        <th>Available / Total</th>
-      </tr>
-    </thead>
-    <tbody>
-  {% for r in rows %}
-    <tr>
-      <td class="num">{{ forloop.counter }}</td>
-      <td>{{ r.building }}</td>
-      <td>{{ r.lot_label }}</td>
-      <td>
-        {% if r.available != None and r.total != None %}
-          {{ r.available }} / {{ r.total }}
-        {% else %}
-          &mdash;
-        {% endif %}
-      </td>
-    </tr>
-  {% empty %}
-    <tr>
-      <td colspan="4" class="empty">No data.</td>
-    </tr>
-  {% endfor %}
-</tbody>
+    <!-- Big page title text in the middle -->
+    <h1 class="title">Data Dashboard</h1> <!-- <- Change the visible page title text here -->
 
-  </table>
-  
+    <!-- Main table showing building, lot, and available/total -->
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>               <!-- <- Index column header text -->
+          <th>Building</th>        <!-- <- Column header; change wording here -->
+          <th>Closest Lot</th>     <!-- <- Column header; change wording here -->
+          <th>Available / Total</th><!-- <- Column header; change wording here -->
+        </tr>
+      </thead>
+      <tbody>
+        {# rows is provided by your Django view: return render(request, ".../home.html", {"rows": rows}) #}
+        {% for r in rows %}
+          <tr>
+            <!-- forloop.counter gives 1-based index in the loop -->
+            <td class="num">{{ forloop.counter }}</td>
+
+            <!-- r.building and r.lot_label come from your view context.
+                 If your keys are named differently (e.g., r.building_name), update here. -->
+            <td>{{ r.building }}</td>
+            <td>{{ r.lot_label }}</td>
+
+            <!-- Show available / total if both are present; otherwise show an em dash -->
+            <td>
+              {% if r.available != None and r.total != None %}
+                {{ r.available }} / {{ r.total }}
+              {% else %}
+                &mdash;
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <!-- Rendered when 'rows' is empty or not provided -->
+          <tr>
+            <td colspan="4" class="empty">No data.</td> <!-- <- Change empty-state text here -->
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
