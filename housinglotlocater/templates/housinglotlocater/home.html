@@ -1,28 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>OU Housing Lot Locator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        select, button {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #f73206ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #7d100c; }
+        .info-box {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 1rem;
+            max-width: 300px;
+            background: #f9f9f9;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body>
     <h1>OU Housing Lot Locator</h1>
 
-    <form method="GET" action="">
-        <label>Select Housing:</label>
-        <select name="housing_id">
-            <option value="">-- Select --</option>
-            {% for h in housing_list %}
-                <option value="{{ h.id }}" {% if selected_housing and h.id == selected_housing.id %}selected{% endif %}>
-                    {{ h.name }}
-                </option>
-            {% endfor %}
-        </select>
-        <button type="submit">Show Info</button>
-    </form>
+    <label for="housingSelect">Select Housing:</label>
+    <select id="housingSelect">
+        <option value="" selected disabled>-- choose housing --</option>
+        {% for h in housings %}
+            <option value="{{ h.id }}">{{ h.housingName }}</option>
+        {% endfor %}
+    </select>
 
-    {% if selected_housing %}
-        <h2>Closest Lot Info for {{ selected_housing.name }}</h2>
-        <p>Closest Lot: {{ closest_lot }}</p>
-        <p>Distance: {{ distance }}</p>
-    {% endif %}
+    <button onclick="showHousingInfo()">Show Info</button>
+
+    <div id="housingInfo" class="info-box">
+        <p><strong>Closest Lot:</strong> <span id="closestLot">--</span></p>
+        <p><strong>Distance:</strong> <span id="distance">--</span></p>
+    </div>
+
+    <script>
+        function showHousingInfo() {
+            const select = document.getElementById("housingSelect");
+            const housingId = select.value;
+
+            if (!housingId) {
+                alert("Please select housing first!");
+                return;
+            }
+
+            fetch(`/housing/${housingId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("closestLot").innerText = data.closestParking;
+                    document.getElementById("distance").innerText = data.distance + " miles";
+                })
+                .catch(err => console.error(err));
+        }
+    </script>
 </body>
 </html>
