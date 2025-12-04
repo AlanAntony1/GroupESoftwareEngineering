@@ -92,7 +92,7 @@
                 return;
             }
 
-            fetch(`/building/${buildingId}/`)
+            fetch(`/locater/building/${buildingId}/`)
                 .then(response => {
                     if (!response.ok) throw new Error("Building not found");
                     return response.json();
