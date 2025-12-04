@@ -98,11 +98,11 @@ Task: Create a Model for available lots - Reese Zimmermann\
 Description: Initialized a Django app that runs a single test case for lot availability. Implemented model with basic fields to represent parking lot data and verified functionality through the initial unit test.\
 Acceptance Criteria: Model successfully created and migrated; test case for lot availability executes and passes.
 
-<<<<<<< HEAD
+
 Task: Add Housing Model - Aditi Mahangade\
 Description: Created a model for housing data including fields for housing name, closest parking, and distance.
 Acceptance Criteria: Model successfully added to Django, migrated, and visible in the admin panel.
-=======
+
 Task: AI Schedule Matcher - Reese Zimmermann\
 Description: Build AI feature to recommend best parking based on user schedule and data.\
 Acceptance Criteria: Given an uploaded schedule, system outputs suggested parking with >70% accuracy on test cases.
@@ -114,4 +114,3 @@ Acceptance Criteria: Migrations generate successfully, and invalid values (negat
 Task: Implement Business Logic for AvailableLots - Reese Zimmermann\
 Description: Added business logic to update lot availability, compute occupancy rate, and manage lot status in alignment with expected system behavior.
 Acceptance Criteria: Local tests for the model logic pass.
->>>>>>> 163ea87879c44c353dfa015d36f40b2ca8e390e1
