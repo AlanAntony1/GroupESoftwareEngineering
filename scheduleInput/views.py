@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from parkinglotlocater.models import Building
 from .forms import ClassInputForm
 from .models import ClassInput
 
@@ -6,9 +7,14 @@ from .models import ClassInput
 
 def get_closest_parking(location: str) -> str:
     """
-    Use logic from ParkingLotLocator
+    Attempts to find closest parking lot for the given class location.
+    Matches based on buildingName in the Building model.
     """
-    return "Unknown"
+    try:
+        building = Building.objects.get(buildingName__iexact=location.strip())
+        return building.closestLot
+    except Building.DoesNotExist:
+        return "Unknown"
 
 def schedule(request):
     if request.method == "POST":

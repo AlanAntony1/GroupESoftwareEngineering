@@ -9,6 +9,8 @@ class ClassInput(models.Model):
     days = models.CharField(max_length = 10)
     location = models.TextField()
 
+    closest_parking = models.CharField(max_length = 20, default = "Unknown")
+
     def clean(self):
         """Ensure that startTime is before endTime."""
         if self.startTime and self.endTime and self.startTime >= self.endTime:
