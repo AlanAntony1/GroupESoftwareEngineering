@@ -15,7 +15,3 @@ class ClassInputForm(forms.ModelForm):
             'startTime': forms.TimeInput(attrs={'type': 'time'}),
             'endTime': forms.TimeInput(attrs={'type': 'time'}),
         }
-        help_texts = {
-            'startTime': 'Please enter a valid time',
-            'endTime': 'Please enter a valid time',
-        }
