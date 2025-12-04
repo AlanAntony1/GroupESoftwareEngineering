@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'availableLots',
     'HighlightButton',
     'scheduleMatcher',
-    
+    'housinglotlocater',
 ]
 
 MIDDLEWARE = [

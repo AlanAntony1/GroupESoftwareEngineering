@@ -1,8 +1,9 @@
 # To - Do
 
-Task: Welcome Page (User Guide) - Aditi Mahangade\
-Description: Create a landing page with instructions on using the site and a place to upload schedule.\
-Acceptance Criteria: Page has instructions, upload button, and file successfully stores.
+Task: Housing Lot Locator - Aditi Mahangade\
+Description: Feature that locates closest parking lot based on location for housing students at OU. Uses some of the same data as the parking lot locator.
+Acceptance Criteria: Page displays clear instructions, includes a drop down of housing locations, and successfully stores uploaded data
+Page has instructions, upload button, and file successfully stores.
 
 Task: Gather Parking Data - Jordan Musselman\
 Description: Collect and format data on available parking spaces.\
@@ -33,6 +34,11 @@ Description: Design a user facing web page for the user to enter and see their c
 Acceptance Criteria: Classes can be added to the web page, are saved, and appear formatted to the user.
 
 
+Task: Create Tests for Housing Model - Aditi Mahangade\
+Description: Write and run unit tests for the Housing model to ensure correct behavior of methods and data validation.
+Acceptance Criteria: All Housing model test cases execute successfully with no errors.
+
+Task: 
 # Complete
 
 Task: Create a Model for Parking History
@@ -91,6 +97,11 @@ Acceptance Criteria: Tests all pass
 Task: Create a Model for available lots - Reese Zimmermann\
 Description: Initialized a Django app that runs a single test case for lot availability. Implemented model with basic fields to represent parking lot data and verified functionality through the initial unit test.\
 Acceptance Criteria: Model successfully created and migrated; test case for lot availability executes and passes.
+
+
+Task: Add Housing Model - Aditi Mahangade\
+Description: Created a model for housing data including fields for housing name, closest parking, and distance.
+Acceptance Criteria: Model successfully added to Django, migrated, and visible in the admin panel.
 
 Task: AI Schedule Matcher - Reese Zimmermann\
 Description: Build AI feature to recommend best parking based on user schedule and data.\
