@@ -82,36 +82,31 @@
   <div class="wrap">
     <h1 class="title">Data Dashboard</h1>
   <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Building</th>
-        <th>Closest Lot</th>
-        <th>Available / Total</th>
-      </tr>
-    </thead>
-    <tbody>
-  {% for r in rows %}
-    <tr>
-      <td class="num">{{ forloop.counter }}</td>
-      <td>{{ r.building }}</td>
-      <td>{{ r.lot_label }}</td>
-      <td>
-        {% if r.available != None and r.total != None %}
-          {{ r.available }} / {{ r.total }}
-        {% else %}
-          &mdash;
-        {% endif %}
-      </td>
-    </tr>
-  {% empty %}
-    <tr>
-      <td colspan="4" class="empty">No data.</td>
-    </tr>
-  {% endfor %}
-</tbody>
-
-  </table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Building</th>
+          <th>Closest Lot</th>
+          <th>Last Seen</th>
+          <th>Selections</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for r in rows %}
+        <tr>
+          <td class="num">{{ forloop.counter }}</td>
+          <td>{{ r.building }}</td>
+          <td>{{ r.lot_label }}</td>
+          <td>{% if r.last_seen %}{{ r.last_seen }}{% else %}&mdash;{% endif %}</td>
+          <td>{{ r.count }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5" class="empty">No buildings configured.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   
 </body>
 </html>
