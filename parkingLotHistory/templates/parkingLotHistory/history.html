@@ -25,11 +25,6 @@
             font-weight: bold;
         }
 
-        .banner-logo {
-            height: 75px;
-            width: auto;
-            margin-right: 1rem;
-        }
 
         .banner-title {
             flex: 1;
@@ -56,93 +51,32 @@
             margin-bottom: 1rem;
         }
 
-        .btn {
-            background-color: #f73206ff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 0.6rem 1.2rem;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 1rem;
-        }
+       
+       
 
-        .btn:hover {
-            background-color: #7d100c;
-        }
-
-        .btn-back {
-            background-color: #f73206ff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 0.6rem 1.2rem;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            margin-top: 1rem;
-        }
-
-        .btn-back:hover {
-            background-color: #7d100c;
-        }
-
-        #historySection {
-            display: none; /* Hidden initially */
-            width: 100%;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #historySection h2 {
-            margin-bottom: 1rem;
-        }
+       
     </style>
 </head>
 <body>
 
 <div class="banner">
-    <a href="{% url 'home' %}">
-        <img src="{% static 'blog/images/banner.png' %}" alt="OU Logo" class="banner-logo">
-    </a>
     <div class="banner-title">OU Parking App</div>
 </div>
 
 <div class="history-wrapper">
-    <!-- Button to show parking history -->
-    <button class="btn" onclick="toggleHistory()">History</button>
+    <h2>Your Parking History</h2>
 
-    <!-- Hidden history section -->
-    <div id="historySection">
-        <h2>Your Parking History</h2>
-
-        {% if history %}
-            {% for spot in history %}
-                <div class="history-list">
-                    <p>Building: {{ spot.building_name }}</p>
-                    <p>Time: {{ spot.timestamp }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No parking history yet.</p>
-        {% endif %}
-    </div>
-
-    <a href="{% url 'locater' %}" class="btn-back">← Back to Parking Locator</a>
+    {% if history %}
+        {% for spot in history %}
+            <div class="history-list">
+               <p><strong>Building:</strong>{{spot.building_name}}</p>
+                <p><strong>Time:</strong>{{spot.timestamp}}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No parking history yet.</p>
+    {% endif %}
 </div>
-
-<script>
-    function toggleHistory() {
-        const section = document.getElementById("historySection");
-        if (section.style.display === "none" || section.style.display === "") {
-            section.style.display = "flex"; // Show history
-        } else {
-            section.style.display = "none"; // Hide history
-        }
-    }
-</script>
 
 </body>
 </html>
