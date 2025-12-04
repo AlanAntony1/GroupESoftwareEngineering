@@ -16,6 +16,6 @@ class ClassInputForm(forms.ModelForm):
             'endTime': forms.TimeInput(attrs={'type': 'time'}),
         }
         help_texts = {
-            'startTime': 'Please use the 24-hour clock (HH:MM).',
-            'endTime': 'Please use the 24-hour clock (HH:MM).',
+            'startTime': 'Please enter a valid time',
+            'endTime': 'Please enter a valid time',
         }
