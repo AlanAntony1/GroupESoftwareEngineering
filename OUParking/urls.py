@@ -22,7 +22,7 @@ urlpatterns = [
     path('', include("blog.urls"), name = 'blog'),
     path('locater/', include("parkinglotlocater.urls"), name = "locater"),
     path('parkingLotHistory/', include("parkingLotHistory.urls"), name = "history"),
-    path('dashboard/', include('datadashboard.urls'), name = "dashboard"),
+    path("dashboard/", include(("datadashboard.urls", "datadashboard"), namespace="datadashboard")),
     
     path('available-lots/', include('availableLots.urls'), name='available_lots'),
     path('schedule-matcher/', include('scheduleMatcher.urls'), name='schedule_matcher'),
