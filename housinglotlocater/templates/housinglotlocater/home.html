@@ -6,14 +6,22 @@
 <body>
     <h1>OU Housing Lot Locator</h1>
 
-    <form>
+    <form method="GET" action="">
         <label>Select Housing:</label>
-        <select name="housing">
+        <select name="housing_id">
+            <option value="">-- Select --</option>
             {% for h in housing_list %}
-                <option>{{ h.name }}</option>
+                <option value="{{ h.id }}" {% if selected_housing and h.id == selected_housing.id %}selected{% endif %}>{{ h.name }}</option>
             {% endfor %}
         </select>
+        <button type="submit">Show Info</button>
     </form>
+
+    {% if selected_housing %}
+        <h2>Closest Lot Info for {{ selected_housing.name }}</h2>
+        <p>Closest Lot: {{ closest_lot }}</p>
+        <p>Distance: {{ distance }}</p>
+    {% endif %}
 
 </body>
 </html>
