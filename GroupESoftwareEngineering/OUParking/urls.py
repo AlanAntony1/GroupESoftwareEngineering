@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include("parkinglotlocater.urls")),
     path('parkingLotHistory/', include("parkingLotHistory.urls")),
     path('', include("scheduleInput.urls")),
+    path('locater/', include("housinglotlocater.urls")),
 ]
