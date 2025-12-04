@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OU Housing Lot Locator</title>
+</head>
+<body>
+    <h1>OU Housing Lot Locator</h1>
+
+    <form>
+        <label>Select Housing:</label>
+        <select name="housing">
+            {% for h in housing_list %}
+                <option>{{ h.name }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+</body>
+</html>
