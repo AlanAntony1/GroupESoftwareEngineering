@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule Input</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; }
+
+        /* Banner styling */
+        .banner {
+            width: 100vw;
+            height: 12vh;
+            background-color: #f73206ff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        .banner-logo {
+            height: 75px;
+            width: auto;
+        }
+        .banner-title {
+            flex: 1;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* Form buttons */
+        button {
+            background-color: #f73206ff;
+            height: 45px;
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 8px 16px;
+        }
+        button:hover { background-color: #7d100c; }
+
+        /* Table styling */
+        table {
+            width: 90%;
+            margin: 2rem auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 0.75rem;
+            text-align: center;
+        }
+        th {
+            background-color: #f73206ff;
+            color: white;
+        }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+
+        /* Delete button in table */
+        .delete-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: red;
+            padding: 8px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .delete-button svg { fill: white; }
+    </style>
+</head>
+<body>
+    <!-- Banner -->
+    <div class="banner">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'blog/images/banner.png' %}" alt="Logo" class="banner-logo">
+        </a>
+        <div class="banner-title">OU Parking App</div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+        <!-- Form Section -->
+        <h1>Add a Class</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Add Class</button>
+        </form>
+
+        <hr>
+
+        <!-- Table Section -->
+        <h2>Your Classes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Days</th>
+                    <th>Location</th>
+                    <th>Closest Parking</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in classes %}
+                <tr>
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.startTime }}</td>
+                    <td>{{ c.endTime }}</td>
+                    <td>{{ c.days }}</td>
+                    <td>{{ c.location }}</td>
+                    <td>{{ c.closest_parking }}</td>
+                    <td>
+                        <a href="/schedule/delete/{{ c.id }}/" class="delete-button">
+                            <!-- Trash icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <path d="M3 6h18v2H3zm2 3h14l-1.5 12h-11zM9 4h6v2H9z"/>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Parking Lot Locater</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 2rem; }
+        body { font-family: Arial, sans-serif; margin: 0; }
         select, button {
             padding: 0.5rem;
             margin: 0.5rem 0;
             font-size: 1rem;
+        }
+        .banner {
+            width: 100vw;              /* full width of the viewport */
+            height: 12vh;              /* 12% of screen height (you can change this) */
+            background-color: #f73206ff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;                 /* remove any spacing */
+            padding: 0;
+        position: relative;
+        }
+        .banner-logo {
+            height: 75px;      /* adjust size */
+            width: auto;
+        }
+        .banner-title{
+            flex: 1;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
         }
         button {
             background-color: #f73206ff;
@@ -30,6 +55,15 @@
     </style>
 </head>
 <body>
+    <div class="banner">
+        <a href="{% url 'home' %}">
+        <img src="{% static 'parkinglotlocater/images/banner.png' %}" alt="Logo" class = "banner-logo">
+        </a>
+        <div class = "banner-title">
+            OU Parking App
+        </div>
+    </div>
+    <div style ="text-align: center;">
     <h1>Parking Lot Locater</h1>
 
     <label for="buildingSelect">Select a Building:</label>
@@ -41,10 +75,11 @@
     </select>
 
     <button onclick="showBuildingInfo()">Show Info</button>
-
-    <div id="buildingInfo" class="info-box">
-        <p><strong>Closest Lott:</strong> <span id="closestLot">--</span></p>
+    <div style="width: fit-content; margin: auto;">
+    <div id="buildingInfo" class="info-box" style="text-align: left;">
+        <p><strong>Closest Lot:</strong> <span id="closestLot">--</span></p>
         <p><strong>Distance:</strong> <span id="distance">--</span></p>
+    </div>
     </div>
 
     <script>
@@ -69,5 +104,10 @@
                 .catch(err => console.error("Error:", err));
         }
     </script>
+
+
+    
+
+    </div>
 </body>
 </html>
