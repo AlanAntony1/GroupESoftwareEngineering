@@ -89,7 +89,8 @@
     <!-- Embed each url after this using urls.py, same as above. Label using comments as well -->
         <!-- this is the url for signup  -->
     <button class="login-button" onclick="document.location='/signup/'">Sign Up</button>
-
+        <!-- Data Dashboard -->
+<button onclick="document.location='{% url 'datadashboard:dashboard-home' %}'">Data Dashboard</button>
      <h1>Updates</h1>
     {% for post in posts %}
         <h2>{{post.title}}</h2>
