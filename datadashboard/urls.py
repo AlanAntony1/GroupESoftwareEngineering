@@ -7,7 +7,6 @@ app_name = "datadashboard"
 urlpatterns = [
     path("", views.home, name="dashboard-home"),      # /dashboard/
     path("data.json", views.data_json, name="dashboard-data"),
-
 ]
 
 
