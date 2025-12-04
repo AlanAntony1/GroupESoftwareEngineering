@@ -11,3 +11,11 @@ class ClassInputForm(forms.ModelForm):
     class Meta:
         model = ClassInput
         fields = ['name', 'startTime', 'endTime', 'days', 'location']
+        widgets = {
+            'startTime': forms.TimeInput(attrs={'type': 'time'}),
+            'endTime': forms.TimeInput(attrs={'type': 'time'}),
+        }
+        help_texts = {
+            'startTime': 'Please use the 24-hour clock (HH:MM).',
+            'endTime': 'Please use the 24-hour clock (HH:MM).',
+        }
