@@ -28,7 +28,7 @@
     <tr>
       <td class="num">{{ forloop.counter }}</td>
       <td>{{ r.building }}</td>
-      <td>{{ r.lot }}</td>
+      <td>{{ r.lot_label }}</td>
       <td>
         {% if r.available != None and r.total != None %}
           {{ r.available }} / {{ r.total }}
