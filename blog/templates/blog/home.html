@@ -94,7 +94,7 @@
     <!-- Embed each url after this using urls.py, same as above. Label using comments as well -->
         <!-- this is the url for signup  -->
     <button class="login-button" onclick="document.location='/signup/'">Sign Up</button>
-    
+
     <h1>Features</h1>
     <div class ="grid-container">
     <!-- This is the url for the parking lot locater-->
@@ -103,8 +103,8 @@
     <!-- Housing Lot Locater Button -->
     <button onclick="document.location='{% url 'housing_lot_locater' %}'">Housing Lot Locater</button>
 
-    <button onclick="document.location='{% url 'schedule_matcher' %}'">AI Schedule Matcher</button>
-
+    <button onclick="document.location='/schedule-matcher/match/'">AI Schedule Matcher</button>
+    
     <!-- Parking History button -->
     <button onclick="document.location='{% url 'parking_history' %}'">Parking History</button>
 
