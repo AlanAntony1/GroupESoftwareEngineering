@@ -1,96 +1,136 @@
 
-# datadashboard/views.py
-# ------------------------------------------------------------
-# Purpose:
-#   Serve the Data Dashboard page (HTML) and a JSON feed used by tests/clients.
-#   The data is built from the latest ParkingHistory snapshot for a few
-#   pre-mapped campus buildings.
-#
-# What to change:
-#   - To add/remove buildings or change the human label shown in the table,
-#     edit the PAIRS list below.
-#   - If you want different keys in the JSON (e.g., add "lot_code"), change
-#     the dict built in _build_rows().
-#   - If you want to show a different “latest” rule (e.g., last 24h only),
-#     update the ParkingHistory query in _build_rows().
-#
-# Test expectations (important):
-#   - The JSON endpoint at name "datadashboard:dashboard-data" must return a
-#     TOP-LEVEL LIST of dicts (NOT {"rows": [...]}), so we use JsonResponse(..., safe=False).
-#   - Each row dict should include: "building", "lot", "available", "total".
-#     (We also include "lot_label" for display; tests ignore it.)
-# ------------------------------------------------------------
-
+from collections import Counter
+from datetime import datetime
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.utils import timezone
+
 from parkingLotHistory.models import ParkingHistory
+from parkinglotlocater.models import Building
+from scheduleInput.models import ClassInput  
 
-# Building ↔ lot mapping used by the dashboard.
-# Format: (building_code, lot_code_in_DB, human_readable_lot_label)
-# - building_code: short string you want to display in the "Building" column
-# - lot_code_in_DB: must match ParkingHistory.lot_name values (e.g., "LotA")
-# - human_readable_lot_label: pretty text for the UI table (optional)
+# Building ↔ lot mapping (adjust as I like)
 PAIRS = [
-    ("DEH", "LotA", "S Jenkins & Page St, Norman"),
-    ("FH",  "LotB", "S Jenkins Ave & Page St, Norman"),
-    ("GH",  "LotC", "123 Example Rd, Norman"),
+    ("Devon Energy Hall", "LotA", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Felga Hall",  "LotB", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Gallogly Hall",  "LotC", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Sarkey's Energy Center", "LotD", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Price College of Business", "LotE", "S Jenkins Ave, Norman, OK 73069"),
+    ("Cater Hall", "LotF", "SW Lindsay Street and Asp Ave, Norman, OK 73069"),
+    ("Dale Hall", "LotG", "SW 15th St & Asp Ave, Norman, OK 73069"),
+    ("Nixon Library", "LotH", "SW 15th St & Asp Ave, Norman, OK 73069"),
+    
 ]
+# quick lookups
+LOT_LABEL_BY_CODE = {code: label for _, code, label in PAIRS}
+CODE_BY_LOT_LABEL = {label: code for _, code, label in PAIRS}
 
-def _build_rows():
-    """
-    Build the dashboard rows from latest ParkingHistory per lot in PAIRS.
+# Map a query-string day (“Mon”, “Tue”, …) to the abbreviations you store in ClassInput.days
+DAY_TO_ABBRS = {
+    "Mon": ["M"],
+    "Tue": ["T"],
+    "Wed": ["W"],
+    "Thu": ["Th"],
+    "Fri": ["F"],
+    "Sat": ["S"],
+    "Sun": ["Su"],
+}
 
-    Returns: list[dict] with keys:
-      - building:   the campus building code (e.g., "DEH")
-      - lot:        the lot code (e.g., "LotA") — tests look for this
-      - lot_label:  human label for display ("S Jenkins & Page St, Norman")
-      - available:  integer, available spots for the latest snapshot
-      - total:      integer, available + occupied (0 if no snapshot)
+def _compute_peak_hours_from_schedule(q_day: str | None) -> dict[str, str | None]:
     """
+    Returns { lot_code: 'HH:00' | None } using ClassInput.arrival_time for the chosen day.
+    - We find each class’s Building by name
+    - Use Building.closestLot (string address) to identify which dashboard lot it belongs to
+    - Bucket arrival_time by hour and pick the top hour
+    """
+    if not q_day or q_day not in DAY_TO_ABBRS:
+        return {code: None for code in CODE_BY_LOT_LABEL.values()}
+
+    want_abbrs = DAY_TO_ABBRS[q_day]
+    classes = ClassInput.objects.all()
+
+    # Build quick map: building name -> closest lot label (string)
+    bmap = {b.buildingName.strip().lower(): b.closestLot for b in Building.objects.all()}
+
+    # Per-lot counters of arrival hours
+    per_lot_counter: dict[str, Counter] = {code: Counter() for code in CODE_BY_LOT_LABEL.values()}
+
+    for c in classes:
+        # Check if this class meets on the requested day
+        # (days is a comma string like "M,W,F" or contains "Th" etc.)
+        days_str = (c.days or "").replace(" ", "")
+        meets_today = any(abbr in days_str.split(",") for abbr in want_abbrs)
+        if not meets_today:
+            continue
+
+        # Determine the lot_code for this class via Building.closestLot
+        key = (c.location or "").strip().lower()
+        lot_label = bmap.get(key)
+        if not lot_label:
+            continue
+        lot_code = CODE_BY_LOT_LABEL.get(lot_label)
+        if not lot_code:
+            continue
+
+        # pick arrival_time if present; otherwise derive a fallback from startTime (same logic as your model)
+        arr = c.arrival_time
+        if not arr and c.startTime:
+            start = datetime.combine(timezone.now().date(), c.startTime)
+            ten = datetime.combine(start.date(), datetime.strptime("10:00", "%H:%M").time())
+            two = datetime.combine(start.date(), datetime.strptime("14:00", "%H:%M").time())
+            delta_min = 25 if ten <= start <= two else 15
+            arr = (start.replace(second=0, microsecond=0) - timezone.timedelta(minutes=delta_min)).time()
+
+        if not arr:
+            continue
+
+        hour_label = f"{arr.hour:02d}:00"
+        per_lot_counter[lot_code][hour_label] += 1
+
+    # pick the most common hour per lot (or None)
+    result: dict[str, str | None] = {}
+    for lot_code, ctr in per_lot_counter.items():
+        result[lot_code] = ctr.most_common(1)[0][0] if ctr else None
+    return result
+
+
+def _build_rows(q_day: str | None = None):
+    """
+    Returns a list of dicts:
+      {building, lot, lot_label, available, total, peak}
+    'peak' is computed from schedule (arrival_time) for the requested day, if provided.
+    """
+    peak_by_lot = _compute_peak_hours_from_schedule(q_day)
+
     rows = []
-
     for building, lot_code, lot_label in PAIRS:
-        # Grab the MOST RECENT snapshot for this lot_code.
-        # If you want a time filter (e.g., only today), add a .filter(timestamp__date=...)
         ph = (
             ParkingHistory.objects
             .filter(lot_name=lot_code)
             .order_by("-timestamp")
             .first()
         )
-
         if ph:
-            # Latest numbers from the snapshot
             available = ph.available_spots
             total = ph.available_spots + ph.occupied_spots
         else:
-            # If there is no data in the DB yet for this lot, show zeros
             available = 0
             total = 0
 
         rows.append({
             "building":  building,
-            "lot":       lot_code,   # tests expect a "lot" field with the code like 'LotA'
-            "lot_label": lot_label,  # optional: used only for nicer display in the HTML
+            "lot":       lot_code,   # tests expect the code like 'LotA'
+            "lot_label": lot_label,  # optional for display
             "available": available,
             "total":     total,
         })
-
     return rows
 
 def home(request):
-    """
-    Render the HTML page (template: datadashboard/home.html).
-    The template expects 'rows' in the context to build the table.
-    """
+    q_day = request.GET.get("day")  # optional day query param for peak hours
     return render(request, "datadashboard/home.html", {"rows": _build_rows()})
 
 def data_json(request):
-    """
-    JSON API endpoint used by tests and (optionally) the UI.
-
-    NOTE: We return a top-level LIST, not an object, because tests call:
-          data = resp.json(); assert isinstance(data, list)
-    That’s why we pass safe=False to JsonResponse.
-    """
+    q_day = request.GET.get("day")  # optional day query param for peak hours
+    # CI expects a LIST (safe=False), not {"rows": ...}
     return JsonResponse(_build_rows(), safe=False)

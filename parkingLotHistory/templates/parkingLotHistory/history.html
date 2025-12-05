@@ -26,6 +26,13 @@
         }
 
 
+        .banner-logo {
+        height: 75px;  /* match the second code */
+        width: auto;
+        }
+
+
+
         .banner-title {
             flex: 1;
             text-align: center;
@@ -60,8 +67,12 @@
 <body>
 
 <div class="banner">
+    <a href="{% url 'home' %}">
+        <img src="{% static 'parkinglotlocater/images/banner.png' %}" alt="Logo" class = "banner-logo">
+    </a>
     <div class="banner-title">OU Parking App</div>
 </div>
+
 
 <div class="history-wrapper">
     <h2>Your Parking History</h2>
@@ -69,8 +80,8 @@
     {% if history %}
         {% for spot in history %}
             <div class="history-list">
-               <p><strong>Building:</strong>{{spot.building_name}}</p>
-                <p><strong>Time:</strong>{{spot.timestamp}}</p>
+                <p><strong>Building:</strong> {{ spot.building_name }}</p>
+                <p><strong>Time:</strong> {{ spot.timestamp }}</p>
             </div>
         {% endfor %}
     {% else %}
@@ -80,3 +91,4 @@
 
 </body>
 </html>
+
