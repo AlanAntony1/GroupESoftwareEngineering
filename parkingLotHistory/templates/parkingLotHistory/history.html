@@ -80,8 +80,8 @@
     {% if history %}
         {% for spot in history %}
             <div class="history-list">
-               <p><strong>Building:</strong>{{spot.building_name}}</p>
-                <p><strong>Time:</strong>{{spot.timestamp}}</p>
+                <p><strong>Building:</strong> {{ spot.building_name }}</p>
+                <p><strong>Time:</strong> {{ spot.timestamp }}</p>
             </div>
         {% endfor %}
     {% else %}
@@ -91,3 +91,4 @@
 
 </body>
 </html>
+
