@@ -1,26 +1,107 @@
 
-# datadashboard/views.py
+from collections import Counter
+from datetime import datetime
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.utils import timezone
+
 from parkingLotHistory.models import ParkingHistory
-from django.db.models import Sum
-from django.db.models.functions import ExtractHour, ExtractWeekDay
-from datetime import timedelta
+from parkinglotlocater.models import Building
+from scheduleInput.models import ClassInput  
 
-# Building ↔ lot mapping (adjust as you like)
+# Building ↔ lot mapping (adjust as I like)
 PAIRS = [
-    ("DEH", "LotA", "S Jenkins & Page St, Norman"),
-    ("FH",  "LotB", "S Jenkins Ave & Page St, Norman"),
-    ("GH",  "LotC", "123 Example Rd, Norman"),
-]
-
-def _build_rows():
+    ("Devon Energy Hall", "LotA", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Felga Hall",  "LotB", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Gallogly Hall",  "LotC", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Sarkey's Energy Center", "LotD", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Price College of Business", "LotE", "S Jenkins Ave, Norman, OK 73069"),
+    ("Cater Hall", "LotF", "SW Lindsay Street and Asp Ave, Norman, OK 73069"),
+    ("Dale Hall", "LotG", "SW 15th St & Asp Ave, Norman, OK 73069"),
+    ("Nixon Library", "LotH", "SW 15th St & Asp Ave, Norman, OK 73069"),
     
+]
+# quick lookups
+LOT_LABEL_BY_CODE = {code: label for _, code, label in PAIRS}
+CODE_BY_LOT_LABEL = {label: code for _, code, label in PAIRS}
+
+# Map a query-string day (“Mon”, “Tue”, …) to the abbreviations you store in ClassInput.days
+DAY_TO_ABBRS = {
+    "Mon": ["M"],
+    "Tue": ["T"],
+    "Wed": ["W"],
+    "Thu": ["Th"],
+    "Fri": ["F"],
+    "Sat": ["S"],
+    "Sun": ["Su"],
+}
+
+def _compute_peak_hours_from_schedule(q_day: str | None) -> dict[str, str | None]:
+    """
+    Returns { lot_code: 'HH:00' | None } using ClassInput.arrival_time for the chosen day.
+    - We find each class’s Building by name
+    - Use Building.closestLot (string address) to identify which dashboard lot it belongs to
+    - Bucket arrival_time by hour and pick the top hour
+    """
+    if not q_day or q_day not in DAY_TO_ABBRS:
+        return {code: None for code in CODE_BY_LOT_LABEL.values()}
+
+    want_abbrs = DAY_TO_ABBRS[q_day]
+    classes = ClassInput.objects.all()
+
+    # Build quick map: building name -> closest lot label (string)
+    bmap = {b.buildingName.strip().lower(): b.closestLot for b in Building.objects.all()}
+
+    # Per-lot counters of arrival hours
+    per_lot_counter: dict[str, Counter] = {code: Counter() for code in CODE_BY_LOT_LABEL.values()}
+
+    for c in classes:
+        # Check if this class meets on the requested day
+        # (days is a comma string like "M,W,F" or contains "Th" etc.)
+        days_str = (c.days or "").replace(" ", "")
+        meets_today = any(abbr in days_str.split(",") for abbr in want_abbrs)
+        if not meets_today:
+            continue
+
+        # Determine the lot_code for this class via Building.closestLot
+        key = (c.location or "").strip().lower()
+        lot_label = bmap.get(key)
+        if not lot_label:
+            continue
+        lot_code = CODE_BY_LOT_LABEL.get(lot_label)
+        if not lot_code:
+            continue
+
+        # pick arrival_time if present; otherwise derive a fallback from startTime (same logic as your model)
+        arr = c.arrival_time
+        if not arr and c.startTime:
+            start = datetime.combine(timezone.now().date(), c.startTime)
+            ten = datetime.combine(start.date(), datetime.strptime("10:00", "%H:%M").time())
+            two = datetime.combine(start.date(), datetime.strptime("14:00", "%H:%M").time())
+            delta_min = 25 if ten <= start <= two else 15
+            arr = (start.replace(second=0, microsecond=0) - timezone.timedelta(minutes=delta_min)).time()
+
+        if not arr:
+            continue
+
+        hour_label = f"{arr.hour:02d}:00"
+        per_lot_counter[lot_code][hour_label] += 1
+
+    # pick the most common hour per lot (or None)
+    result: dict[str, str | None] = {}
+    for lot_code, ctr in per_lot_counter.items():
+        result[lot_code] = ctr.most_common(1)[0][0] if ctr else None
+    return result
+
+
+def _build_rows(q_day: str | None = None):
     """
     Returns a list of dicts:
-      {building, lot, lot_label, available, total}
-    using the latest ParkingHistory per lot.
+      {building, lot, lot_label, available, total, peak}
+    'peak' is computed from schedule (arrival_time) for the requested day, if provided.
     """
+    peak_by_lot = _compute_peak_hours_from_schedule(q_day)
+
     rows = []
     for building, lot_code, lot_label in PAIRS:
         ph = (
@@ -44,97 +125,12 @@ def _build_rows():
             "total":     total,
         })
     return rows
-# --- PEAK HOUR (typical) -----------------------------------------------------
-# We’ll compute "typical" as: for each weekday, which hour has the highest
-# *average* occupied spots over the last N days (default 60).
-
-# Reuse the same lot list you used in _build_rows()
-_LOT_PAIRS = [
-    ("DEH", "LotA", "S Jenkins & Page St, Norman"),
-    ("FH",  "LotB", "S Jenkins Ave & Page St, Norman"),
-    ("GH",  "LotC", "123 Example Rd, Norman"),
-]
-_LOT_CODES = [c for _, c, _ in _LOT_PAIRS]
-
-def typical_peaks_for_lot(lot_code: str, window_days: int = 60):
-    """
-    Return a dict:
-      {
-        "lot": "LotA",
-        "window_days": 60,
-        "by_weekday": [
-           {"weekday": 1, "hour": 14, "avg_occupied": 37},
-           ... one row per weekday 1..7 ...
-        ],
-        "overall": {"hour": 14, "avg_occupied": 42}
-      }
-    Weekday is 1=Sun … 7=Sat (Django's ExtractWeekDay).
-    """
-    if lot_code not in _LOT_CODES:
-        return {"lot": lot_code, "window_days": window_days, "by_weekday": [], "overall": None}
-
-    since = timezone.now() - timedelta(days=window_days)
-
-    # 1) Aggregate occupancy by (weekday, hour)
-    qs = (
-        ParkingHistory.objects
-        .filter(lot_name=lot_code, timestamp__gte=since)
-        .annotate(weekday=ExtractWeekDay("timestamp"), hour=ExtractHour("timestamp"))
-        .values("weekday", "hour")
-        .annotate(occ=Sum("occupied_spots"))
-    )
-
-    # Build a dict {(weekday, hour) -> occ}
-    grid = {}
-    for r in qs:
-        grid[(int(r["weekday"]), int(r["hour"]))] = int(r["occ"])
-
-    # 2) For each weekday, pick the hour with max occupied
-    by_weekday = []
-    for wd in range(1, 8):  # 1..7
-        best_hour, best_occ = None, -1
-        for hr in range(0, 24):
-            occ = grid.get((wd, hr), 0)
-            if occ > best_occ:
-                best_occ = occ
-                best_hour = hr
-        if best_hour is not None:
-            by_weekday.append({"weekday": wd, "hour": best_hour, "avg_occupied": best_occ})
-
-    # 3) Overall typical hour across all weekdays
-    overall_hour, overall_occ = None, -1
-    # Sum across weekdays by hour
-    hourly_total = {hr: 0 for hr in range(24)}
-    for wd in range(1, 8):
-        for hr in range(24):
-            hourly_total[hr] += grid.get((wd, hr), 0)
-    for hr, total in hourly_total.items():
-        if total > overall_occ:
-            overall_occ, overall_hour = total, hr
-
-    return {
-        "lot": lot_code,
-        "window_days": window_days,
-        "by_weekday": by_weekday,
-        "overall": {"hour": overall_hour, "avg_occupied": overall_occ} if overall_hour is not None else None,
-    }
 
 def home(request):
-    rows = _build_rows()
-
-    # Compute typical peaks for the lots we show (last 60 days)
-    peaks = {lot: typical_peaks_for_lot(lot, window_days=60) for lot in _LOT_CODES}
-
-    return render(
-        request,
-        "datadashboard/home.html",
-        {
-            "rows": rows,
-            "peaks": peaks,   # <-- add this
-        },
-    )
-
+    q_day = request.GET.get("day")  # optional day query param for peak hours
+    return render(request, "datadashboard/home.html", {"rows": _build_rows()})
 
 def data_json(request):
+    q_day = request.GET.get("day")  # optional day query param for peak hours
     # CI expects a LIST (safe=False), not {"rows": ...}
     return JsonResponse(_build_rows(), safe=False)

@@ -34,5 +34,7 @@ urlpatterns = [
     
     #New login system
     path('accounts/', include('django.contrib.auth.urls')),
+    
+    
 ]
 

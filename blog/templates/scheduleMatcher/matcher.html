@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>AI Schedule Matcher</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        form { margin-top: 20px; }
+        table { margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px 12px; }
+        th { background-color: #f2f2f2; }
+        button {
+            background-color: #f73206ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background-color: #7d100c; }
+    </style>
+</head>
+<body>
+    <h1>AI Schedule Matcher</h1>
+    <p>Upload your class schedule CSV to get recommended parking lots for each course.</p>
+
+    <!-- Upload form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="schedule_file" accept=".csv" required>
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    <!-- Show recommendations if present -->
+    {% if recommendations %}
+        <h2>Recommended Lots</h2>
+        <table>
+            <tr>
+                <th>Course</th>
+                <th>Building</th>
+                <th>Recommended Lot</th>
+            </tr>
+            {% for rec in recommendations %}
+            <tr>
+                <td>{{ rec.course }}</td>
+                <td>{{ rec.building }}</td>
+                <td>{{ rec.recommended_lot }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <p><a href="{% url 'home' %}">← Back to Home</a></p>
+</body>
+</html>
