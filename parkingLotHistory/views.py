@@ -64,23 +64,42 @@
    # return render(request, "parkingLotHistory/history.html", {"history": history})
 
 from django.shortcuts import render
+from django.http import JsonResponse
+from .models import ParkingHistory
+from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
 
+@csrf_exempt  
+def add_history(request):
+    if request.method == "POST":
+        building_name = request.POST.get("building_name")
+        closest_lot = request.POST.get("closest_lot")
+        distance = request.POST.get("distance")
+        if distance:
+            distance = Decimal(distance)
+        user = request.user if request.user.is_authenticated else None
+        ParkingHistory.objects.create(
+            user=user,
+            building_name=building_name,
+            closest_lot=closest_lot,
+            distance=distance
+        )
+        return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "fail"}, status=400)
+
 def list_history(request):
-    # Hard-coded parking history entries
     history = [
         {
             "building_name": "Devon Energy Hall",
             "closest_lot": "S, Jenkins & Paige St, Norman, OK, 73069",
-            "distance": Decimal("0.40")  # example distance
+            "distance": Decimal("0.25")
         },
         {
             "building_name": "Felgar Hall",
             "closest_lot": "S, Jenkins & Paige St, Norman, OK, 73069",
-            "distance": Decimal("0.40")  # example distance
+            "distance": Decimal("0.35")
         }
     ]
-    
     return render(request, "parkingLotHistory/history.html", {"history": history})
 
 
