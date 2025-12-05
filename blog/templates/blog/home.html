@@ -80,7 +80,10 @@
     <h1>Features</h1>
     <!-- This is the url for the parking lot locater-->
     <button onclick="document.location='locater'">Parking Lot Locater</button>
-  
+    <button onclick="document.location='{% url 'schedule_matcher' %}'">
+    AI Schedule Matcher
+    </button>
+
     <!-- this is the url for login  -->
     <button class="login-button" onclick="document.location='/accounts/login/'">Log In</button>
     <!-- Embed each url after this using urls.py, same as above. Label using comments as well -->
