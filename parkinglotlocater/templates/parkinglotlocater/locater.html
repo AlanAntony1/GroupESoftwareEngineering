@@ -137,10 +137,10 @@
 function initMap(latitude = 35.1988204370754, longitude = -97.44488670088485) {
 
     const ouBounds = {
-        north: 35.211186608752165,
-        south: 35.18532781574767,
-        east: -97.4360,
-        west: -97.4520,
+        north: latitude + 0.01236617167,
+        south: latitude - 0.01349262132,
+        east: longitude + 0.00888670088,
+        west: longitude - 0.00711329911,
     };
 
     const centerofou = {lat: latitude, lng: longitude};
