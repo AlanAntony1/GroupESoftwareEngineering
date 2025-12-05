@@ -25,10 +25,13 @@
             font-weight: bold;
         }
 
+
         .banner-logo {
-            height: 75px;
-            width: auto;
+        height: 75px;  /* match the second code */
+        width: auto;
         }
+
+
 
         .banner-title {
             flex: 1;
@@ -55,90 +58,36 @@
             margin-bottom: 1rem;
         }
 
-        .add-history-btn {
-            margin: 1rem;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            cursor: pointer;
-            background-color: #f73206ff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
+       
+       
+
+       
     </style>
 </head>
 <body>
 
 <div class="banner">
     <a href="{% url 'home' %}">
-        <img src="{% static 'parkinglotlocater/images/banner.png' %}" alt="Logo" class="banner-logo">
+        <img src="{% static 'parkinglotlocater/images/banner.png' %}" alt="Logo" class = "banner-logo">
     </a>
     <div class="banner-title">OU Parking App</div>
 </div>
 
+
 <div class="history-wrapper">
     <h2>Your Parking History</h2>
 
-    <button class="add-history-btn" onclick="addParkingHistory('Test Lot')">Add Test Lot</button>
-
-    <div id="history-container">
-        {% if history %}
-            {% for spot in history %}
-                <div class="history-list">
-                    <p><strong>Building:</strong> {{spot.building_name}}</p>
-                    <p><strong>Time:</strong> {{spot.timestamp}}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No parking history yet.</p>
-        {% endif %}
-    </div>
+    {% if history %}
+        {% for spot in history %}
+            <div class="history-list">
+               <p><strong>Building:</strong>{{spot.building_name}}</p>
+                <p><strong>Time:</strong>{{spot.timestamp}}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No parking history yet.</p>
+    {% endif %}
 </div>
-
-<script>
-function addParkingHistory(lotName) {
-    fetch('/add_parking_history/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': '{{ csrf_token }}'
-        },
-        body: 'building_name=' + encodeURIComponent(lotName)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.status === 'success') {
-            loadHistory();  // reload the history list
-        } else {
-            alert('Failed to add parking history');
-        }
-    });
-}
-
-function loadHistory() {
-    fetch('/parking_history_data/')  // a new view returning JSON of all history
-        .then(response => response.json())
-        .then(data => {
-            const container = document.getElementById('history-container');
-            if(data.history.length === 0) {
-                container.innerHTML = '<p>No parking history yet.</p>';
-            } else {
-                container.innerHTML = '';
-                data.history.forEach(spot => {
-                    container.innerHTML += `
-                        <div class="history-list">
-                            <p><strong>Building:</strong> ${spot.building_name}</p>
-                            <p><strong>Time:</strong> ${spot.timestamp}</p>
-                        </div>
-                    `;
-                });
-            }
-        });
-}
-
-// Optional: refresh every 5 seconds
-setInterval(loadHistory, 5000);
-</script>
 
 </body>
 </html>

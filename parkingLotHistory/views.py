@@ -1,35 +1,63 @@
+
+
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import ParkingHistory, HousingHistory
 import datetime
 
+# Temporary in-memory history lists
+parking_history_list = []
+housing_history_list = []
+
 def parking_history(request):
-    history = ParkingHistory.objects.order_by('-timestamp')  # get all records
-    return render(request, 'parkingLotHistory/history.html', {'history': history})
+    """
+    Display the temporary parking history page.
+    """
+    return render(request, 'parkingLotHistory/history.html', {
+        'history': parking_history_list
+    })
 
 def housing_history(request):
-    history = HousingHistory.objects.order_by('-timestamp')
-    return render(request, 'housinglotlocater/history.html', {'history': history})
+    """
+    Display the temporary housing history page.
+    """
+    return render(request, 'housinglotlocater/history.html', {
+        'history': housing_history_list
+    })
 
 @csrf_exempt
 def add_parking_history(request):
+    """
+    Add a building selection to the temporary parking history.
+    """
     if request.method == 'POST':
         building_name = request.POST.get('building_name')
+
         if building_name:
-            ParkingHistory.objects.create(lot_name=building_name)
+            parking_history_list.append({
+                'building_name': building_name,
+                'timestamp': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            })
             return JsonResponse({'status': 'success'})
+
     return JsonResponse({'status': 'fail'}, status=400)
 
 @csrf_exempt
 def add_housing_history(request):
+    """
+    Add a building selection to the temporary housing history.
+    """
     if request.method == 'POST':
         building_name = request.POST.get('building_name')
-        if building_name:
-            HousingHistory.objects.create(building_name=building_name)
-            return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'fail'}, status=400)
 
+        if building_name:
+            housing_history_list.append({
+                'building_name': building_name,
+                'timestamp': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            })
+            return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'fail'}, status=400)
 
 
 #from django.shortcuts import render
