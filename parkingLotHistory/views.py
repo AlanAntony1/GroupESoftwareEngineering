@@ -69,7 +69,7 @@ from .models import ParkingHistory
 from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
 
-@csrf_exempt  
+@csrf_exempt
 def add_history(request):
     if request.method == "POST":
         building_name = request.POST.get("building_name")
@@ -87,5 +87,11 @@ def add_history(request):
         return JsonResponse({"status": "success"})
     return JsonResponse({"status": "fail"}, status=400)
 
+def list_history(request):
+    if request.user.is_authenticated:
+        history = ParkingHistory.objects.filter(user=request.user).order_by('-timestamp')
+    else:
+        history = ParkingHistory.objects.all().order_by('-timestamp')
+    return render(request, "parkingLotHistory/history.html", {"history": history})
 
 
