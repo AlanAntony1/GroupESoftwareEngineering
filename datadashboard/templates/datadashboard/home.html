@@ -1,74 +1,118 @@
-<!doctype html>
-<html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{{ title }}</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="utf-8" />
+  <title>OU Parking — Data Dashboard</title> 
+  <!-- Same banner style as your partner's page -->
   <style>
-    body { font-family: -apple-system, Arial, sans-serif; margin: 24px; }
-    .grid { display: grid; grid-template-columns: repeat(3, minmax(160px,1fr)); gap: 16px; margin-bottom: 20px; }
-    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
-    .muted { color: #6b7280; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #e5e7eb; padding: 8px 10px; text-align: left; }
-    th { background: #f8fafc; }
-    canvas { margin-top: 24px; max-width: 100%; }
+    body { font-family: Arial, sans-serif; margin: 0; } /*  Change global font family here and remove default brower magins*/
+    .banner {
+      width: 100vw;                   /* Full viewport width */
+      height: 12vh;                   /* Banner height (increase/decrease for thicker/thinner bar) */
+      background-color: #f73206ff;    /* <- OU crimson; change this hex to change banner color */
+      color: white;                   /* <- Banner text color */
+      display: flex;                  /* Flex layout for centering content */
+      justify-content: center;        /* Horizontally center children */
+      align-items: center;            /* Vertically center children */
+      font-size: 2rem;                /* <- Banner text size */
+      font-weight: bold;              /* <- Banner text weight */
+      margin: 0;
+      padding: 0;
+      position: relative;             /* Allows future absolute-positioned elements if needed */
+    }
+    .banner-logo {
+      height: 75px;   /* <- Change this to resize logo (e.g., 60px or 90px) */
+      width: auto;    /* Keep aspect ratio */
+    }
+    .banner-title {
+      flex: 1;                 /* Take remaining width so it's centered while logo sits on left */
+      text-align: center;      /* Center the text horizontally */
+      font-size: 2rem;         /* <- Banner title size */
+      font-weight: bold;       /* <- Banner title weight */
+    }
+    /* page content wrapper */
+     .wrap {
+      max-width: 1100px; /* <- Page content max width; increase for wider table */
+      margin: 28px auto 80px; /* <- Top / left-right (auto centers) / bottom margins */
+      padding: 0 20px;        /* <- Side padding inside the wrapper */
+    }
+    /* simple table styling you already use */
+    table {
+      width: 100%;            /* Full width within .wrap */
+      border-collapse: collapse; /* Merge borders */
+    }
+    th, td {
+      padding: 14px 16px;        /* <- Cell padding (change for tighter/looser rows) */
+      border-bottom: 1px solid #e5e7eb; /* <- Row divider color */
+    }
+    th {
+      background: #1f2937; /* <- Table header background (dark gray) */
+      color: #fff;         /* <- Table header text color */
+      text-align: left;    /* Header text alignment */}
+    .num {
+      width: 56px; /* <- First column width (index column) */
+      color: #6B7280; /* <- Subtle gray text for the # column */
+    }
+    .title {
+      text-align: center; /* Center the H1 */
+      font-size: 48px;    /* <- Main title size (e.g., 40px, 56px) */
+      font-weight: 800;   /* <- Title weight (700 = bold, 800 = extra-bold) */
+      margin: 18px 0 28px;/* <- Top / sides / bottom spacing around title */
+    }
+    .empty {
+      text-align: center;    /* Center the empty message */
+      color: #6B7280;        /* Gray text for empty message */
+      padding: 20px;         /* Space inside the cell */
+      background: #f3f4f6;   /* Light gray background so it stands out */
+    }
   </style>
 </head>
-<body>
-  <h1>{{ title }}</h1>
 
-  <div class="grid">
-    <div class="card">
-      <div class="muted">Total Buildings</div>
-      <div><b>{{ total_buildings }}</b></div>
-    </div>
-    <div class="card">
-      <div class="muted">API (sample)</div>
-      <div><a href="./data.json">/dashboard/data.json</a></div>
-    </div>
+<body>
+  <!-- OU RED BANNER (logo → Home) -->
+  <div class="banner">
+    <a href="{% url 'home' %}">
+      <img src="{% static 'parkinglotlocater/images/banner.png' %}" alt="OU" class="banner-logo" />
+    </a>
+    <div class="banner-title">OU Parking App</div>
   </div>
 
-  <h2>Buildings</h2>
+  <div class="wrap">
+    <h1 class="title">Data Dashboard</h1>
   <table>
     <thead>
-      <tr><th>#</th><th>Building Name</th><th>Closest Lot</th><th>Distance</th></tr>
+      <tr>
+        <th>#</th>
+        <th>Building</th>
+        <th>Closest Lot</th>
+        <th>Available / Total</th>
+        <th>Peak Hours</th>
+      </tr>
     </thead>
     <tbody>
-      {% for b in buildings %}
-        <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ b.buildingName }}</td>
-          <td>{{ b.closestLot }}</td>
-          <td>{{ b.distance }}</td>
-        </tr>
-      {% empty %}
-        <tr><td colspan="4">No buildings found.</td></tr>
-      {% endfor %}
-    </tbody>
+  {% for r in rows %}
+    <tr>
+      <td class="num">{{ forloop.counter }}</td>
+      <td>{{ r.building }}</td>
+      <td>{{ r.lot_label }}</td>
+      <td>
+        {% if r.available != None and r.total != None %}
+          {{ r.available }} / {{ r.total }}
+        {% else %}
+          &mdash;
+        {% endif %}
+      </td>
+      <td>{{r.peak|default:"—"}}</td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="4" class="empty">No data.</td>
+    </tr>
+  {% endfor %}
+</tbody>
+
   </table>
-
-  <h2>Building Distances</h2>
-  <canvas id="distanceChart" height="100"></canvas>
-
-  <script>
-    const labels = {{ labels|safe }};
-    const distances = {{ distances|safe }};
-
-    new Chart(document.getElementById('distanceChart'), {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Distance (miles)',
-          data: distances,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: { y: { beginAtZero: true } }
-      }
-    });
-  </script>
+  
 </body>
 </html>

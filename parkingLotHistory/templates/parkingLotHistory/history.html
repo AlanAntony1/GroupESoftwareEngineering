@@ -1,19 +1,94 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Parking History</title>
+    <meta charset="UTF-8">
+    <title>Parking History – OU Parking App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .banner {
+            width: 100vw;
+            height: 12vh;
+            background-color: #f73206ff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+
+        .banner-logo {
+        height: 75px;  /* match the second code */
+        width: auto;
+        }
+
+
+
+        .banner-title {
+            flex: 1;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .history-wrapper {
+            min-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .history-list {
+            width: 90%;
+            max-width: 600px;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+
+       
+       
+
+       
+    </style>
 </head>
 <body>
-    <h1>Parking Lot History</h1>
-    {% if parking_data %}
-        <ul>
-        {% for record in parking_data %}
-            <li>{{ record }}</li>
+
+<div class="banner">
+    <a href="{% url 'home' %}">
+        <img src="{% static 'parkinglotlocater/images/banner.png' %}" alt="Logo" class = "banner-logo">
+    </a>
+    <div class="banner-title">OU Parking App</div>
+</div>
+
+
+<div class="history-wrapper">
+    <h2>Your Parking History</h2>
+
+    {% if history %}
+        {% for spot in history %}
+            <div class="history-list">
+                <p><strong>Building:</strong> {{ spot.building_name }}</p>
+                <p><strong>Time:</strong> {{ spot.timestamp }}</p>
+            </div>
         {% endfor %}
-        </ul>
     {% else %}
-        <p>No parking history available.</p>
+        <p>No parking history yet.</p>
     {% endif %}
+</div>
+
 </body>
 </html>
 

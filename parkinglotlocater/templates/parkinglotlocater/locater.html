@@ -92,7 +92,7 @@
                 return;
             }
 
-            fetch(`/building/${buildingId}/`)
+            fetch(`/locater/building/${buildingId}/`)
                 .then(response => {
                     if (!response.ok) throw new Error("Building not found");
                     return response.json();
@@ -100,10 +100,55 @@
                 .then(data => {
                     document.getElementById("closestLot").innerText = data.closestLot;
                     document.getElementById("distance").innerText = data.distance + " miles";
+                    console.log(data);
+                    initMap(data.parkingLotLat, data.parkingLotLong);
                 })
                 .catch(err => console.error("Error:", err));
         }
     </script>
+
+
+    <div style="display: flex; justify-content: center;">
+    <div id="parkmap" style="height: 500px; width: 80%; max-width: 800px;"></div>
+    </div>
+
+    <script>
+function initMap(latitude = 35.1988204370754, longitude = -97.44488670088485) {
+
+    const ouBounds = {
+        north: 35.211186608752165,
+        south: 35.18532781574767,
+        east: -97.4360,
+        west: -97.4520,
+    };
+
+    const centerofou = {lat: latitude, lng: longitude};
+
+    const map = new google.maps.Map(document.getElementById("parkmap"), {
+        zoom: 15,
+        center: centerofou,
+        restriction: {
+            latLngBounds: ouBounds,
+            strictBounds: false
+        },
+    });
+
+    new google.maps.Marker({
+        position: centerofou,
+        map: map,
+        title: "OU Campus",
+    });
+}
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAETAc0Npv7wS9ivFql6lUKo0h0RxLUs5A&callback=initMap"
+    async defer>
+</script>
+
+            </script>
+    
+
     </div>
 </body>
 </html>
