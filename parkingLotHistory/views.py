@@ -90,6 +90,11 @@ def add_history(request):
 def list_history(request):
     history = [
         {
+            "building_name": "Sarkey's Energy Center",
+            "closest_lot": "S, Jenkins & Paige St, Norman, OK, 73069",
+            "distance": Decimal("0.10")
+        },
+        {
             "building_name": "Devon Energy Hall",
             "closest_lot": "S, Jenkins & Paige St, Norman, OK, 73069",
             "distance": Decimal("0.25")
