@@ -85,19 +85,16 @@
         </div>
     </div>
     <div style ="text-align: center;">
-<<<<<<< HEAD
     <h1>Features</h1>
     <!-- This is the url for the parking lot locater-->
     <button onclick="document.location='locater'">Parking Lot Locater</button>
 
     <!-- this is the url for login  -->
-=======
-        <!-- this is the url for login  -->
->>>>>>> 5fe18c24af6430a5ca38a98b5c1dfb5441af38c1
     <button class="login-button" onclick="document.location='/accounts/login/'">Log In</button>
     <!-- Embed each url after this using urls.py, same as above. Label using comments as well -->
         <!-- this is the url for signup  -->
     <button class="login-button" onclick="document.location='/signup/'">Sign Up</button>
+    
     <h1>Features</h1>
     <div class ="grid-container">
     <!-- This is the url for the parking lot locater-->
@@ -106,6 +103,7 @@
     <!-- Housing Lot Locater Button -->
     <button onclick="document.location='{% url 'housing_lot_locater' %}'">Housing Lot Locater</button>
 
+    <button onclick="document.location='{% url 'schedule_matcher' %}'">AI Schedule Matcher</button>
 
     <!-- Parking History button -->
     <button onclick="document.location='{% url 'parking_history' %}'">Parking History</button>
