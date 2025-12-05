@@ -1,25 +1,34 @@
+
+
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import datetime
-from .models import ParkingHistory
-from django.contrib.auth.decorators import login_required
 
- #Temporary in-memory history list
+# Temporary in-memory history lists
 parking_history_list = []
+housing_history_list = []
 
 def parking_history(request):
     """
-    Display the parking history page
+    Display the temporary parking history page.
     """
     return render(request, 'parkingLotHistory/history.html', {
         'history': parking_history_list
     })
 
-@csrf_exempt
-def add_history(request):
+def housing_history(request):
     """
-    Receive POST request with building name and record it.
+    Display the temporary housing history page.
+    """
+    return render(request, 'housinglotlocater/history.html', {
+        'history': housing_history_list
+    })
+
+@csrf_exempt
+def add_parking_history(request):
+    """
+    Add a building selection to the temporary parking history.
     """
     if request.method == 'POST':
         building_name = request.POST.get('building_name')
@@ -32,6 +41,24 @@ def add_history(request):
             return JsonResponse({'status': 'success'})
 
     return JsonResponse({'status': 'fail'}, status=400)
+
+@csrf_exempt
+def add_housing_history(request):
+    """
+    Add a building selection to the temporary housing history.
+    """
+    if request.method == 'POST':
+        building_name = request.POST.get('building_name')
+
+        if building_name:
+            housing_history_list.append({
+                'building_name': building_name,
+                'timestamp': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            })
+            return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'fail'}, status=400)
+
 
 #from django.shortcuts import render
 #from django.contrib.auth.decorators import login_required
