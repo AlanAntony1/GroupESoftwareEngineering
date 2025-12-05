@@ -101,6 +101,18 @@
                     document.getElementById("closestLot").innerText = data.closestLot;
                     document.getElementById("distance").innerText = data.distance + " miles";
 
+                    
+                    fetch('/parkingLotHistory/add_history/',{
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: `building_name=${encodeURIComponent(select.options[select.selectedIndex].text)}`
+                    })
+                    .then(resp => resp.json())
+                    .then(result => console.log('History:', result))
+                    .catch(err => console.error('Error saving history:', err));
                 })
                 .catch(err => console.error("Error:", err));
         }
