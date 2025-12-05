@@ -100,6 +100,8 @@
                 .then(data => {
                     document.getElementById("closestLot").innerText = data.closestLot;
                     document.getElementById("distance").innerText = data.distance + " miles";
+                    console.log(data);
+                    initMap(data.parkingLotLat, data.parkingLotLong);
                 })
                 .catch(err => console.error("Error:", err));
         }
@@ -111,7 +113,7 @@
     </div>
 
     <script>
-function initMap() {
+function initMap(latitude = 35.1988204370754, longitude = -97.44488670088485) {
 
     const ouBounds = {
         north: 35.211186608752165,
@@ -120,7 +122,7 @@ function initMap() {
         west: -97.4520,
     };
 
-    const centerofou = {lat: 35.1988204370754, lng: -97.44488670088485};
+    const centerofou = {lat: latitude, lng: longitude};
 
     const map = new google.maps.Map(document.getElementById("parkmap"), {
         zoom: 15,

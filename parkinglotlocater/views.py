@@ -11,6 +11,8 @@ def building_details(request, building_id):
     building = get_object_or_404(Building, id = building_id)
     data = {
         "closestLot": building.closestLot,
-        "distance": str(building.distance)
+        "distance": str(building.distance),
+        "parkingLotLat": float(building.parkingLotLat),
+        "parkingLotLong": float(building.parkingLotLong)
     }
     return JsonResponse(data)
