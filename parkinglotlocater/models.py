@@ -5,8 +5,8 @@ class Building(models.Model):
     buildingName = models.CharField(max_length=100)
     closestLot = models.TextField()
     distance = models.DecimalField(max_digits = 5, decimal_places  = 2, default = 0.0)
-    parkingLotLat = models.DecimalField(max_digits = 16, decimal_places = 13)
-    parkingLotLong = models.DecimalField(max_digits = 16, decimal_places = 13)
+    parkingLotLat = models.DecimalField(max_digits = 16, decimal_places = 13, default = 0.0)
+    parkingLotLong = models.DecimalField(max_digits = 16, decimal_places = 13, default = 0.0)
     
 
     def __str__(self):
