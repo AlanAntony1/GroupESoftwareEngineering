@@ -87,24 +87,5 @@ def add_history(request):
         return JsonResponse({"status": "success"})
     return JsonResponse({"status": "fail"}, status=400)
 
-def list_history(request):
-    history = [
-        {
-            "building_name": "Sarkey's Energy Center",
-            "closest_lot": "S, Jenkins & Paige St, Norman, OK, 73069",
-            "distance": Decimal("0.10")
-        },
-        {
-            "building_name": "Devon Energy Hall",
-            "closest_lot": "S, Jenkins & Paige St, Norman, OK, 73069",
-            "distance": Decimal("0.25")
-        },
-        {
-            "building_name": "Felgar Hall",
-            "closest_lot": "S, Jenkins & Paige St, Norman, OK, 73069",
-            "distance": Decimal("0.35")
-        }
-    ]
-    return render(request, "parkingLotHistory/history.html", {"history": history})
 
 
