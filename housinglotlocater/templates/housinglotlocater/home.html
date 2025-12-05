@@ -29,6 +29,7 @@
     </style>
 </head>
 <body>
+    {% csrf_token %}
     <h1>OU Housing Lot Locator</h1>
 
     <label for="housingSelect">Select Housing:</label>
@@ -61,7 +62,26 @@
                 .then(data => {
                     document.getElementById("closestLot").innerText = data.closestParking;
                     document.getElementById("distance").innerText = data.distance + " miles";
+
+                    // Save to ParkingHistory
+                    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                    fetch('/parkingLotHistory/add_history/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body:
+                            `building_name=${encodeURIComponent(select.options[select.selectedIndex].text)}`
+                            + `&closest_lot=${encodeURIComponent(data.closestParking)}`
+                            + `&distance=${encodeURIComponent(data.distance)}`
+                    })
+                    .then(resp => resp.json())
+                    .then(result => console.log('History saved:', result))
+                    .catch(err => console.error('Error saving history:', err));
                 })
+                
                 .catch(err => console.error(err));
         }
     </script>
