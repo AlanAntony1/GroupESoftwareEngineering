@@ -28,6 +28,10 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import ParkingHistory
 from django.views.decorators.csrf import csrf_exempt
+from decimal import Decimal
+
+
+
 
 @csrf_exempt  
 def add_history(request):
@@ -36,7 +40,10 @@ def add_history(request):
         closest_lot = request.POST.get("closest_lot")
         distance = request.POST.get("distance")
 
-        # optional: associate with user if logged in
+        if distance:
+            distance = Decimal(distance)
+
+
         user = request.user if request.user.is_authenticated else None
 
         history = ParkingHistory.objects.create(
@@ -54,5 +61,5 @@ def list_history(request):
         history = ParkingHistory.objects.filter(user=request.user).order_by('-timestamp')
     else:
         history = ParkingHistory.objects.all().order_by('-timestamp')
-    return render(request, "parkingLotHistory/listHistory.html", {"history": history})
+    return render(request, "parkingLotHistory/history.html", {"history": history})
 
