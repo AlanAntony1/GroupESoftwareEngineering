@@ -15,3 +15,8 @@ class ClassInputForm(forms.ModelForm):
             'startTime': forms.TimeInput(attrs={'type': 'time'}),
             'endTime': forms.TimeInput(attrs={'type': 'time'}),
         }
+
+    def clean_days(self):
+        """Convert a list of selected days into a CSV string before saving."""
+        days_list = self.cleaned_data['days']  # ['M', 'W', 'S']
+        return ",".join(days_list)  # "M,W,S"
