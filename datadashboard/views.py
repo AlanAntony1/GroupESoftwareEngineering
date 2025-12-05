@@ -4,11 +4,17 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from parkingLotHistory.models import ParkingHistory
 
-# Building ↔ lot mapping (adjust as you like)
+# Building ↔ lot mapping (adjust as I like)
 PAIRS = [
-    ("DEH", "LotA", "S Jenkins & Page St, Norman"),
-    ("FH",  "LotB", "S Jenkins Ave & Page St, Norman"),
-    ("GH",  "LotC", "123 Example Rd, Norman"),
+    ("Devon Energy Hall", "LotA", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Felga Hall",  "LotB", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Gallogly Hall",  "LotC", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Sarkey's Energy Center", "LotD", "S Jenkins Ave & Page St, Norman, OK 73069"),
+    ("Price College of Business", "LotE", "S Jenkins Ave, Norman, OK 73069"),
+    ("Cater Hall", "LotF", "SW Lindsay Street and Asp Ave, Norman, OK 73069"),
+    ("Dale Hall", "LotG", "SW 15th St & Asp Ave, Norman, OK 73069"),
+    ("Nixon Library", "LotH", "SW 15th St & Asp Ave, Norman, OK 73069"),
+    
 ]
 
 def _build_rows():
