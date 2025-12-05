@@ -30,5 +30,5 @@ class ParkingHistory(models.Model):
     distance = models.DecimalField(max_digits=5, decimal_places=2)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.building_name} – {self.closest_lot} – {self.distance} miles"
+   # def __str__(self):
+    #    return f"{self.building_name} – {self.closest_lot} – {self.distance} miles"
