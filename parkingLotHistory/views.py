@@ -29,7 +29,7 @@ from django.http import JsonResponse
 from .models import ParkingHistory
 from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt  # Only if you’re posting via JS fetch; otherwise use {% csrf_token %}
+@csrf_exempt  
 def add_history(request):
     if request.method == "POST":
         building_name = request.POST.get("building_name")
