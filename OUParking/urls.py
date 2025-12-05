@@ -24,7 +24,7 @@ urlpatterns = [
     path('housing-lot-locater/', include('housinglotlocater.urls'), name='housing_lot_locater'),
     
 
-    path('parkingLotHistory/', include("parkingLotHistory.urls"), name = "history"),
+    path('parkingLotHistory/', include("parkingLotHistory.urls")),
     path("dashboard/", include(("datadashboard.urls", "datadashboard"), namespace="datadashboard")),
     
     path('available-lots/', include('availableLots.urls'), name='available_lots'),

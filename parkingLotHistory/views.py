@@ -62,14 +62,11 @@
   #  else:
    #     history = ParkingHistory.objects.all().order_by('-timestamp')
    # return render(request, "parkingLotHistory/history.html", {"history": history})
-
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import ParkingHistory
-from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
 
-@csrf_exempt
 def add_history(request):
     if request.method == "POST":
         building_name = request.POST.get("building_name")
@@ -77,13 +74,25 @@ def add_history(request):
         distance = request.POST.get("distance")
         if distance:
             distance = Decimal(distance)
-        user = request.user if request.user.is_authenticated else None
-        ParkingHistory.objects.create(
-            user=user,
-            building_name=building_name,
-            closest_lot=closest_lot,
-            distance=distance
-        )
+
+        if request.user.is_authenticated:
+            # Save to database for logged-in users
+            ParkingHistory.objects.create(
+                user=request.user,
+                building_name=building_name,
+                closest_lot=closest_lot,
+                distance=distance
+            )
+        else:
+            # Save in session for anonymous users
+            history = request.session.get('parking_history', [])
+            history.append({
+                "building_name": building_name,
+                "closest_lot": closest_lot,
+                "distance": float(distance)
+            })
+            request.session['parking_history'] = history
+
         return JsonResponse({"status": "success"})
     return JsonResponse({"status": "fail"}, status=400)
 
@@ -91,7 +100,5 @@ def list_history(request):
     if request.user.is_authenticated:
         history = ParkingHistory.objects.filter(user=request.user).order_by('-timestamp')
     else:
-        history = ParkingHistory.objects.all().order_by('-timestamp')
+        history = request.session.get('parking_history', [])
     return render(request, "parkingLotHistory/history.html", {"history": history})
-
-
