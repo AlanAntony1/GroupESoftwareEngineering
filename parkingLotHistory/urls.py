@@ -12,5 +12,5 @@ from . import views
 
 urlpatterns = [
     path("add_history/", views.add_history, name="add_history"),
-    path("list_history/", views.list_history, name="list_history"),
+    path("history/", views.list_history, name="history"),  # updated name/path
 ]
