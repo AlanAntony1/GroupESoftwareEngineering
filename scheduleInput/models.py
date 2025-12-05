@@ -129,15 +129,21 @@ class ClassInput(models.Model):
         else:
             recommended = class_start - timedelta(minutes=15)
         return recommended.time()
-    
+
     def save(self, *args, **kwargs):
         # Automatically calculates arrival_time every time object saves
         if self.startTime:
             self.arrival_time = self.calculate_arrival_time()
-        # Saves days as a string seperated by commas to override list format
+
+        # Always normalize days field
         if isinstance(self.days, list):
-            self.days = ','.join(self.days)
+            self.days = ",".join(self.days)
+        elif "[" in self.days:
+            # Handle case where string literal list was saved
+            cleaned = self.days.strip("[]").replace("'", "").replace(" ", "")
+            self.days = cleaned
         super().save(*args, **kwargs)
+
     
     def clean(self):
         """Ensure that startTime is before endTime."""
