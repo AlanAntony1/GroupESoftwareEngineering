@@ -100,22 +100,21 @@
                 .then(data => {
                     document.getElementById("closestLot").innerText = data.closestLot;
                     document.getElementById("distance").innerText = data.distance + " miles";
+                    console.log(data);
+                    initMap(data.parkingLotLat, data.parkingLotLong);
 
                     
                     fetch('/parkingLotHistory/add_history/',{
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                          'X-CSRFToken': '{{ csrf_token }}'
-                      },
-                      body: `building_name=${encodeURIComponent(select.options[select.selectedIndex].text)}
-                            &closest_lot=${encodeURIComponent(data.closestLot)}
-                            &distance=${encodeURIComponent(data.distance)}`
-                  })
-                  .then(resp => resp.json())
-                  .then(result => console.log('History saved:', result))
-                  .catch(err => console.error('Error saving history:', err));
-
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: `building_name=${encodeURIComponent(select.options[select.selectedIndex].text)}`
+                    })
+                    .then(resp => resp.json())
+                    .then(result => console.log('History:', result))
+                    .catch(err => console.error('Error saving history:', err));
                 })
                 .catch(err => console.error("Error:", err));
         }
@@ -127,7 +126,7 @@
     </div>
 
     <script>
-function initMap() {
+function initMap(latitude = 35.1988204370754, longitude = -97.44488670088485) {
 
     const ouBounds = {
         north: 35.211186608752165,
@@ -136,7 +135,7 @@ function initMap() {
         west: -97.4520,
     };
 
-    const centerofou = {lat: 35.1988204370754, lng: -97.44488670088485};
+    const centerofou = {lat: latitude, lng: longitude};
 
     const map = new google.maps.Map(document.getElementById("parkmap"), {
         zoom: 15,

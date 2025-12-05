@@ -87,6 +87,7 @@
         <th>Building</th>
         <th>Closest Lot</th>
         <th>Available / Total</th>
+        <th>Peak Hours</th>
       </tr>
     </thead>
     <tbody>
@@ -102,6 +103,7 @@
           &mdash;
         {% endif %}
       </td>
+      <td>{{r.peak|default:"—"}}</td>
     </tr>
   {% empty %}
     <tr>
