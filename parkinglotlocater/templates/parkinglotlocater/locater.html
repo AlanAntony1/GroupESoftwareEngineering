@@ -143,6 +143,22 @@ function initMap(latitude = 35.1988204370754, longitude = -97.44488670088485) {
         west: longitude - 0.00711329911,
     };
 
+    map.data.setStyle(function(feature) {
+    const spotId = feature.getProperty("name");
+    const isHighlighted = highlightedSpots.includes(spotId);
+
+    return {
+        icon: {
+            url: isHighlighted
+                ? "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+                : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+        }
+    };
+});
+
+
+
+
     const centerofou = {lat: latitude, lng: longitude};
 
     const map = new google.maps.Map(document.getElementById("parkmap"), {
