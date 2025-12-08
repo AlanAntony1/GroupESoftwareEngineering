@@ -1,8 +1,20 @@
-
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.utils import timezone
 from .models import Highlight
+from HighlightButton.models import Highlight 
 
-# Create your views here.
-def schedule(request):
-    classes = Highlight.objects.all()
-    return render(request, 'HighlightButton.html', {"Classes":classes})
+
+def togglespot(request):
+    spotid = request.Get.get("spotid")
+    if not spotid:
+        return JsonResponse({"error": "no spotid"}, status=400)
+    
+    obj, created = Highlight.objects.get_or_create(spotid=spotid)
+    obj.isHighlighted = not obj.isHighlighted
+    obj.lastPressed = timezone.now()
+    obj.save()
+    
+    return JsonResponse({
+        "spotid": spotid,
+        "newstate": obj.isHighlighted
+    })
