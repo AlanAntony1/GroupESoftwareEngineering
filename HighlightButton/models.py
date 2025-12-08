@@ -9,4 +9,4 @@ class Highlight(models.Model):
     lastPressed= models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.spot_id} - {'Highlighted' if self.isHighlighted else 'Normal'}"
+        return f"{self.spotid} - {'Highlighted' if self.isHighlighted else 'Normal'}"
