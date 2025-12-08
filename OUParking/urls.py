@@ -35,6 +35,9 @@ urlpatterns = [
     #New login system
     path('accounts/', include('django.contrib.auth.urls')),
     
+    #Button
+    path("highlight/", include("HighlightButton.urls")),
+
     
 ]
 
