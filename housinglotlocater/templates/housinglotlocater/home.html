@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>OU Housing Lot Locator</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 2rem; }
+        body { font-family: Arial, sans-serif; margin: 0; }
         select, button {
             padding: 0.5rem;
             margin: 0.5rem 0;
@@ -26,9 +27,41 @@
             background: #f9f9f9;
             margin-top: 1rem;
         }
+        .banner {
+            width: 100vw;              /* full width of the viewport */
+            height: 12vh;              /* 12% of screen height (you can change this) */
+            background-color: #f73206ff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;                 /* remove any spacing */
+            padding: 0;
+        position: relative;
+        }
+        .banner-logo {
+            height: 75px;      /* adjust size */
+            width: auto;
+        }
+        .banner-title{
+            flex: 1;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+    <div class="banner">
+        <a href="{% url 'home' %}">
+        <img src="{% static 'blog/images/banner.png' %}" alt="Logo" class = "banner-logo">
+        </a>
+        <div class = "banner-title">
+            OU Parking App
+        </div>
+    </div>
     {% csrf_token %}
     <h1>OU Housing Lot Locator</h1>
 
