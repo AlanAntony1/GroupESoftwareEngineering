@@ -35,6 +35,20 @@ class ToggleSpotFalseToTrueTests(TestCase):
         updated = Highlight.objects.get(spotid="stestspot")
         self.assertTrue(updated.isHighlighted)
         
+  ## Incorrect Synch test where the fontend has a spot, but the data does not
+  
+class SyncCreateTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_frontend_has_spot_but_db_missing(self):
+        response = self.client.get("/highlight/toggle-spot/?spotid=newspot")
+        data = response.json()
+
+        obj = Highlight.objects.get(spotid="newspot")
+
+        self.assertTrue(obj.isHighlighted)
+        self.assertTrue(data["newstate"]) 
        
 
 
