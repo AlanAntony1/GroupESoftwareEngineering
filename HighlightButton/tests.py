@@ -23,18 +23,17 @@ class ToggleMissingIDTests(TestCase):
 class ToggleSpotFalseToTrueTests(TestCase):
     def setUp(self):
         self.client = Client()
-        Highlight.objects.create(spotid="B1", isHighlighted=False)
+        Highlight.objects.create(spotid="stestspot", isHighlighted=False)
 
     def test_toggle_false_to_true(self):
-        response = self.client.get("/highlight/toggle-spot/?spot_id=B1")
+        response = self.client.get("/highlight/toggle-spot/?spotid=stestspot")
         data = response.json()
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(data["newstate"])
 
-        updated = Highlight.objects.get(spotid="B1")
+        updated = Highlight.objects.get(spotid="stestspot")
         self.assertTrue(updated.isHighlighted)
-
         
        
 
