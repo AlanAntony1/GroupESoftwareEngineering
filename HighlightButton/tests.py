@@ -1,58 +1,39 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from .models import Highlight
-import time
-from django.utils import timezone
-from django.core.exceptions import ValidationError
-from django.utils import timezone
+
 
 # Create your tests here.
-"""
 
- class HighlightButtonTest(TestCase):
-    def  setUp(self):
-        "Testing valid button input"
-        self.obj = Highlight.objects.create(
-            button = False,
-            isHighlighted=False,
-            lastPressed=timezone.now()
-        )
+class HighlightModelTests(TestCase):
+    def testfilterhighlighted(self):
+        Highlight.objects.create(spotid="testspot1", isHighlighted=True)
+        Highlight.objects.create(spotid="testspot2", isHighlighted=False)
+        Highlight.objects.create(spotid="testspot3", isHighlighted=True)
 
-        self.assertEqual(self.obj.button, False)
-        self.assertEqual(self.obj.isHighlighted, False)
-        self.assertIsNotNone(self.obj.lastPressed)
+        highlighted = Highlight.objects.filter(isHighlighted=True)
+        ids = [h.spotid for h in highlighted]
 
-    def test_initial_state(self):
-        self.assertFalse(self.obj.button)
-        self.assertFalse(self.obj.isHighlighted)
+        self.assertEqual(ids, ["testspot1", "testspot3"])
+ 
+class ToggleMissingIDTests(TestCase):
+    def testmissingspotid(self):
+        response = self.client.get("/highlight/toggle-spot/")
+        self.assertEqual(response.status_code, 400)        
 
+class ToggleSpotFalseToTrueTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        Highlight.objects.create(spotid="B1", isHighlighted=False)
 
-    def test_button_press_changes_state(self):
-        old_time = self.obj.lastPressed
-        self.obj.press_button()
+    def test_toggle_false_to_true(self):
+        response = self.client.get("/highlight/toggle-spot/?spot_id=B1")
+        data = response.json()
 
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(data["newstate"])
 
-        self.assertTrue(self.obj.button)
-        self.assertTrue(self.obj.isHighlighted)
-        self.assertGreater(self.obj.lastPressed, old_time)
-
-
-    def test_button_toggle_highlight(self):
-        self.obj.press_button()
-
-        self.assertTrue(self.obj.isHighlighted)
-
-        self.obj.press_button()
-
-        self.assertFalse(self.obj.isHighlighted)
-
-    def test_button_time_updates_each_press(self):
-        first_time = self.obj.lastPressed
-        time.sleep(0.5)
-        self.obj.press_button()
-        self.assertGreater(self.obj.lastPressed, first_time)
-
-"""
-
+        updated = Highlight.objects.get(spotid="B1")
+        self.assertTrue(updated.isHighlighted)
 
         
        
