@@ -5,7 +5,7 @@ from HighlightButton.models import Highlight
 
 
 def togglespot(request):
-    spotid = request.Get.get("spotid")
+    spotid = request.GET.get("spotid")
     if not spotid:
         return JsonResponse({"error": "no spotid"}, status=400)
     

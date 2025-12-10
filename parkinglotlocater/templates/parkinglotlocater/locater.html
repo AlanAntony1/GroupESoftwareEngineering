@@ -129,11 +129,59 @@
     </script>
 
 
+     <script id="highlightdata" type="application/json">
+    {{ highlighted_spots_json|safe }}
+    </script>
+
+<script>
+    let highlightedspots;
+
+    try {
+        highlightedspots = JSON.parse(
+            document.getElementById("highlightdata").textContent
+        );
+
+        if (!Array.isArray(highlightedspots)) {
+            highlightedspots = [];
+        }
+    } catch (e) {
+        highlightedspots = [];
+    }
+
+
+console.log("Initial highlighted list:Initial highlighted list:Initial highlighted list:");
+ console.log("Initial highlighted list:", highlightedspots);
+   
+</script>
+
+
+
     <div style="display: flex; justify-content: center;">
     <div id="parkmap" style="height: 500px; width: 80%; max-width: 800px;"></div>
     </div>
 
+
+
     <script>
+        let map;
+
+function applyhighlight() {
+    if (!map) return;
+
+    map.data.setStyle(function(feature) {
+        const spotid = feature.getProperty("name");
+        const ishighlight = highlightedspots.includes(spotid);
+
+        return {
+            icon: {
+                url: ishighlight
+                    ? "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                    : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+            }
+        };
+    });
+}
+
 function initMap(latitude = 35.1988204370754, longitude = -97.44488670088485) {
 
     const ouBounds = {
@@ -146,7 +194,7 @@ function initMap(latitude = 35.1988204370754, longitude = -97.44488670088485) {
     
     const centerofou = {lat: latitude, lng: longitude};
 
-    const map = new google.maps.Map(document.getElementById("parkmap"), {
+    map = new google.maps.Map(document.getElementById("parkmap"), {
         zoom: 15,
         center: centerofou,
         restriction: {
@@ -154,13 +202,48 @@ function initMap(latitude = 35.1988204370754, longitude = -97.44488670088485) {
             strictBounds: false
         },
     });
-
+        
     new google.maps.Marker({
         position: centerofou,
         map: map,
         title: "OU Campus",
     });
+
+        map.data.loadGeoJson("{% static 'true.json' %}");
+
+        applyhighlight();
+
+        map.data.addListener("click", function(event) {
+        const Spotnamed = event.feature.getProperty("name");
+        console.log("Clicked spot:", Spotnamed);
+
+        
+        fetch(`/highlight/toggle-spot/?spotid=${encodeURIComponent(Spotnamed)}`)
+        .then(resp => resp.json())
+        .then(data => {
+
+            if (data.newstate) {
+                if (!highlightedspots.includes(Spotnamed)) {
+                    highlightedspots.push(Spotnamed);
+                }
+            } else {
+                highlightedspots = highlightedspots.filter(x => x !== Spotnamed);
+            }
+
+
+            
+
+
+            console.log("Full highlighted list:", highlightedspots);
+            map.data.revertStyle();
+            applyhighlight();
+
+
+        });
+    });
 }
+    
+
 </script>
 
 <script
